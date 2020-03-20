@@ -30,7 +30,11 @@ public class InputController : MonoBehaviour
             if (DetectBuildingHit(out RaycastHit hit)) {
                 selected = hit.collider.gameObject.GetComponent<Building>();
 
-                selected.Select();
+                if (selected.team == "red") {
+                    selected.Select();
+                } else {
+                    selected = null;
+                }
             }
         }
 
