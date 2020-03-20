@@ -295,7 +295,7 @@ GameObject:
   - component: {fileID: 7976396885157399807}
   - component: {fileID: 157665524450410977}
   - component: {fileID: 865084415159819873}
-  - component: {fileID: 3787023370423591544}
+  - component: {fileID: -302320078904725107}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Unit
@@ -370,7 +370,7 @@ MonoBehaviour:
   troopNumberText: {fileID: 2353304541103894204}
   origin: {fileID: 0}
   target: {fileID: 0}
---- !u!54 &3787023370423591544
+--- !u!54 &-302320078904725107
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -384,5 +384,5 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 0
   m_CollisionDetection: 0

@@ -10,12 +10,13 @@ public class Building : MonoBehaviour
 
     public string team = "neutral";
     public TextMeshPro troopNumberText;
+    public GameObject selectionCircle;
 
     private Renderer modelRenderer;
 
     private void Awake() {
         modelRenderer = gameObject.GetComponentInChildren<Renderer>();
-
+        selectionCircle.SetActive(false);
         troopNumberText.SetText("40");
 
         StartCoroutine(GenerateUnits());
@@ -49,7 +50,7 @@ public class Building : MonoBehaviour
         troopNumberText.SetText(troopNumber.ToString());
     }
 
-    private void OnCollisionEnter(Collision collision) {
+    private void OnTriggerEnter(Collider collision) {
         if (collision.gameObject.tag == "Unit") {
             Unit unitObject = collision.gameObject.GetComponent<Unit>();
 
@@ -86,10 +87,12 @@ public class Building : MonoBehaviour
     }
 
     public void Select() {
-        modelRenderer.material.color = Color.green;
+        // modelRenderer.material.color = Color.green;
+        selectionCircle.SetActive(true);
     }
 
     public void DeSelect() {
+        selectionCircle.SetActive(false);
         SetTeam(team);
     }
 }
