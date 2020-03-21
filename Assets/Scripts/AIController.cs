@@ -8,12 +8,12 @@ public class AIController : MonoBehaviour
     public bool isAIActive = true;
     public float aIDecisionSpeed = 1f;
 
-    public GameObject buildingContainer;
-    private Building[] buildingList;
+    // public GameObject buildingContainer;
+    // private Building[] buildingList;
 
     void Start()
     {
-        buildingList = buildingContainer.gameObject.GetComponentsInChildren<Building>();
+        // buildingList = buildingContainer.gameObject.GetComponentsInChildren<Building>();
 
         StartCoroutine(AICoroutine());
     }
