@@ -22,6 +22,10 @@ public class InputController : MonoBehaviour
     }
 
     private void Update() {
+        if (selected != null && selected.team != "red") {
+            ClearSelected();
+        }
+
         if (Input.GetMouseButtonDown(0) && !isMouse0clicked) {
             isMouse0clicked = true;
 
@@ -42,7 +46,12 @@ public class InputController : MonoBehaviour
             isMouse1clicked = true;
 
             if (selected != null && DetectBuildingHit(out RaycastHit hit)) {
-                Unit.ConstructUnit(selected, hit.collider.gameObject.GetComponent<Building>());
+                Building focused = hit.collider.gameObject.GetComponent<Building>();
+                if (focused == selected && selected.team == "red") {
+                    selected.Upgrade();
+                } else {
+                    Unit.ConstructUnit(selected, hit.collider.gameObject.GetComponent<Building>());
+                }
             }
 
             ClearSelected();

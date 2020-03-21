@@ -60,6 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec63d2cab3eaaea40bdad0a2eb812ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxNumberOfUnits: 100
+  troopGenerationRate: 10
   team: red
   troopNumberText: {fileID: 2845522129377479492}
   selectionCircle: {fileID: 3456772869139268617}
@@ -120,7 +122,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: 2100000, guid: 08566afd28752e34db3659c149e3067d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
-    public static int MAX_UNIT_NUMBER = 200;
-    public static int TROOP_GENERATION_RATE = 20;
+    public int maxNumberOfUnits = 100;
+    public int troopGenerationRate = 10;
 
     public string team = "neutral";
     public TextMeshPro troopNumberText;
@@ -16,12 +16,12 @@ public class Building : MonoBehaviour
 
     private void Awake() {
         modelRenderer = gameObject.GetComponentInChildren<Renderer>();
+
         selectionCircle.SetActive(false);
         troopNumberText.SetText("40");
+        SetTeam(team);
 
         StartCoroutine(GenerateUnits());
-
-        SetTeam(team);
     }
 
     private IEnumerator GenerateUnits() {
@@ -31,10 +31,10 @@ public class Building : MonoBehaviour
             if (team != "neutral") {
                 int troopNumber = GetTroopNumber();
 
-                troopNumber += TROOP_GENERATION_RATE;
+                troopNumber += troopGenerationRate;
 
-                if (troopNumber > MAX_UNIT_NUMBER) {
-                    troopNumber = MAX_UNIT_NUMBER;
+                if (troopNumber > maxNumberOfUnits) {
+                    troopNumber = maxNumberOfUnits;
                 }
 
                 SetTroopNumber(troopNumber);
@@ -50,12 +50,26 @@ public class Building : MonoBehaviour
         troopNumberText.SetText(troopNumber.ToString());
     }
 
+    public bool Upgrade() {
+        int currentTroopNumber = GetTroopNumber();
+        if (currentTroopNumber > ((int) maxNumberOfUnits / 2)) {
+            SetTroopNumber(currentTroopNumber - ((int) maxNumberOfUnits / 2));
+
+            maxNumberOfUnits += 100;
+            troopGenerationRate += 10;
+
+            return true;
+        }
+
+        return false;
+    }
+
     private void OnTriggerEnter(Collider collision) {
         if (collision.gameObject.tag == "Unit") {
             Unit unitObject = collision.gameObject.GetComponent<Unit>();
 
             if (unitObject.origin != this && unitObject.target == this) {
-                int newTroopValue = -1;
+                int newTroopValue;
                 if (unitObject.team.Equals(team)) {
                     newTroopValue = unitObject.GetTroopNumber() + GetTroopNumber();
                 } else {
@@ -87,7 +101,6 @@ public class Building : MonoBehaviour
     }
 
     public void Select() {
-        // modelRenderer.material.color = Color.green;
         selectionCircle.SetActive(true);
     }
 

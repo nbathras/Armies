@@ -133,6 +133,16 @@ PrefabInstance:
       propertyPath: team
       value: neutral
       objectReference: {fileID: 0}
+    - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: maxNumberOfUnits
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: troopGenerationRate
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533118, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: m_Name
@@ -198,6 +208,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2845522129377479491, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 08566afd28752e34db3659c149e3067d, type: 2}
     - target: {fileID: 2845522129377479492, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -295,6 +310,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: blue
+  isAIActive: 1
+  aIDecisionSpeed: 2
   buildingContainer: {fileID: 495083543}
 --- !u!4 &417970784 stripped
 Transform:
@@ -313,6 +330,16 @@ PrefabInstance:
         type: 3}
       propertyPath: team
       value: blue
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: maxNumberOfUnits
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: troopGenerationRate
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533118, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
@@ -379,6 +406,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2845522129377479491, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 08566afd28752e34db3659c149e3067d, type: 2}
     - target: {fileID: 2845522129377479492, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -542,6 +574,16 @@ PrefabInstance:
       propertyPath: team
       value: neutral
       objectReference: {fileID: 0}
+    - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: maxNumberOfUnits
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: troopGenerationRate
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533118, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: m_Name
@@ -607,6 +649,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2845522129377479491, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 08566afd28752e34db3659c149e3067d, type: 2}
     - target: {fileID: 2845522129377479492, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -866,6 +913,16 @@ PrefabInstance:
       propertyPath: team
       value: neutral
       objectReference: {fileID: 0}
+    - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: maxNumberOfUnits
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: troopGenerationRate
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533118, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: m_Name
@@ -931,6 +988,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2845522129377479491, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 08566afd28752e34db3659c149e3067d, type: 2}
     - target: {fileID: 2845522129377479492, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -1048,6 +1110,16 @@ PrefabInstance:
       propertyPath: team
       value: neutral
       objectReference: {fileID: 0}
+    - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: maxNumberOfUnits
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: troopGenerationRate
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533118, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: m_Name
@@ -1113,6 +1185,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2845522129377479491, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 08566afd28752e34db3659c149e3067d, type: 2}
     - target: {fileID: 2845522129377479492, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -1231,5 +1308,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2845522129377479491, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 08566afd28752e34db3659c149e3067d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf564ba9cce8d16479e32f85afb1e639, type: 3}
