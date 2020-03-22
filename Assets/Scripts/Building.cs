@@ -2,13 +2,14 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using static GameManager;
 
 public class Building : MonoBehaviour
 {
     public int maxNumberOfUnits = 100;
     public int troopGenerationRate = 10;
 
-    public string team = "neutral";
+    public Team team = Team.Netural;
     public TextMeshPro troopNumberText;
     public GameObject selectionCircle;
 
@@ -28,7 +29,7 @@ public class Building : MonoBehaviour
         while(true) {
             yield return new WaitForSeconds(1f);
 
-            if (team != "neutral") {
+            if (team != Team.Netural) {
                 int troopNumber = GetTroopNumber();
 
                 troopNumber += troopGenerationRate;
@@ -85,16 +86,16 @@ public class Building : MonoBehaviour
         }
     }
 
-    public void SetTeam(String inTeam) {
+    public void SetTeam(Team inTeam) {
         team = inTeam;
 
-        if (team.Equals("neutral")) {
+        if (team == Team.Netural) {
             modelRenderer.material.color = Color.gray;
         } else {
-            if (team.Equals("red")) {
+            if (team == Team.Red) {
                 modelRenderer.material.color = Color.red;
             }
-            if (team.Equals("blue")) {
+            if (team == Team.Blue) {
                 modelRenderer.material.color = Color.blue;
             }
         }

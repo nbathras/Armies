@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AIController : MonoBehaviour
 {
-    public string team = "blue";
+    public GameManager.Team team = GameManager.Team.Blue;
     public bool isAIActive = true;
     public float aIDecisionSpeed = 1f;
 
@@ -25,8 +25,8 @@ public class AIController : MonoBehaviour
             List<Building> enemyBuildings = new List<Building>();
             List<Building> friendlyBuildings = new List<Building>();
 
-            foreach (Building building in buildingList) {
-                if (building.team.Equals(team)) {
+            foreach (Building building in GameManager.instance.buildingList) {
+                if (building.team == team) {
                     friendlyBuildings.Add(building);
                 } else {
                     enemyBuildings.Add(building);

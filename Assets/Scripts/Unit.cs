@@ -2,10 +2,11 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using static GameManager;
 
 public class Unit : MonoBehaviour
 {
-    public string team = "neutral";
+    public Team team = Team.Netural;
 
     public TextMeshPro troopNumberText;
 
@@ -37,16 +38,16 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void SetTeam(String inTeam) {
+    public void SetTeam(Team inTeam) {
         team = inTeam;
 
-        if (team.Equals("neutral")) {
+        if (team == Team.Netural) {
             modelRenderer.material.color = Color.gray;
         } else {
-            if (team.Equals("red")) {
+            if (team == Team.Red) {
                 modelRenderer.material.color = Color.red;
             }
-            if (team.Equals("blue")) {
+            if (team == Team.Blue) {
                 modelRenderer.material.color = Color.blue;
             }
         }

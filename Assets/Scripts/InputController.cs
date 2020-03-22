@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class InputController : MonoBehaviour
@@ -23,7 +21,7 @@ public class InputController : MonoBehaviour
     }
 
     private void Update() {
-        if (selected != null && selected.team != "red") {
+        if (selected != null && selected.team != GameManager.instance.playerControlledTeam) {
             ClearSelected();
         }
 
@@ -35,7 +33,7 @@ public class InputController : MonoBehaviour
             if (DetectBuildingHit(out RaycastHit hit)) {
                 selected = hit.collider.gameObject.GetComponent<Building>();
 
-                if (selected.team == "red") {
+                if (selected.team == GameManager.instance.playerControlledTeam) {
                     selected.Select();
                 } else {
                     selected = null;
@@ -48,7 +46,7 @@ public class InputController : MonoBehaviour
 
             if (selected != null && DetectBuildingHit(out RaycastHit hit)) {
                 Building focused = hit.collider.gameObject.GetComponent<Building>();
-                if (focused == selected && selected.team == "red") {
+                if (focused == selected && selected.team == GameManager.instance.playerControlledTeam) {
                     selected.Upgrade();
                 } else {
                     Unit.ConstructUnit(selected, hit.collider.gameObject.GetComponent<Building>());
@@ -63,10 +61,6 @@ public class InputController : MonoBehaviour
         }
         if (Input.GetMouseButtonUp(1)) {
             isMouse1clicked = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            SceneManager.LoadScene(0);
         }
     }
 
