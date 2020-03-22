@@ -9,6 +9,10 @@ public class Building : MonoBehaviour
     public int maxNumberOfUnits = 100;
     public int troopGenerationRate = 10;
 
+    public int currentLevel = 0;
+
+    public GameObject[] buildingModelStages;
+
     public Team team = Team.Netural;
     public TextMeshPro troopNumberText;
     public GameObject selectionCircle;
@@ -16,13 +20,29 @@ public class Building : MonoBehaviour
     private Renderer modelRenderer;
 
     private void Awake() {
-        modelRenderer = gameObject.GetComponentInChildren<Renderer>();
-
         selectionCircle.SetActive(false);
         troopNumberText.SetText("40");
         SetTeam(team);
+        SetLevel(currentLevel);
 
         StartCoroutine(GenerateUnits());
+    }
+
+    private void SetLevel(int level) {
+        currentLevel = level;
+        if (currentLevel > buildingModelStages.Length - 1) {
+            currentLevel = buildingModelStages.Length - 1;
+        }
+
+        for (int i = 0; i < buildingModelStages.Length; i++) {
+            if (i == currentLevel) {
+                buildingModelStages[i].SetActive(true);
+            } else {
+                buildingModelStages[i].SetActive(false);
+            }
+        }
+
+        SetTeam(team);
     }
 
     private IEnumerator GenerateUnits() {
@@ -32,10 +52,10 @@ public class Building : MonoBehaviour
             if (team != Team.Netural) {
                 int troopNumber = GetTroopNumber();
 
-                troopNumber += troopGenerationRate;
+                troopNumber += troopGenerationRate * (currentLevel + 1);
 
-                if (troopNumber > maxNumberOfUnits) {
-                    troopNumber = maxNumberOfUnits;
+                if (troopNumber > maxNumberOfUnits * (currentLevel + 1)) {
+                    troopNumber = maxNumberOfUnits * (currentLevel + 1);
                 }
 
                 SetTroopNumber(troopNumber);
@@ -56,8 +76,7 @@ public class Building : MonoBehaviour
         if (currentTroopNumber > ((int) maxNumberOfUnits / 2)) {
             SetTroopNumber(currentTroopNumber - ((int) maxNumberOfUnits / 2));
 
-            maxNumberOfUnits += 100;
-            troopGenerationRate += 10;
+            SetLevel(currentLevel + 1);
 
             return true;
         }
@@ -88,6 +107,8 @@ public class Building : MonoBehaviour
 
     public void SetTeam(Team inTeam) {
         team = inTeam;
+
+        modelRenderer = buildingModelStages[currentLevel].GetComponentInChildren<Renderer>();
 
         if (team == Team.Netural) {
             modelRenderer.material.color = Color.gray;
