@@ -294,8 +294,8 @@ GameObject:
   - component: {fileID: 8648799958462636985}
   - component: {fileID: 7976396885157399807}
   - component: {fileID: 157665524450410977}
+  - component: {fileID: -8589130978746000727}
   - component: {fileID: 865084415159819873}
-  - component: {fileID: -302320078904725107}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Unit
@@ -353,7 +353,23 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
+--- !u!54 &-8589130978746000727
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8923766808711290304}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &865084415159819873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,19 +386,3 @@ MonoBehaviour:
   troopNumberText: {fileID: 2353304541103894204}
   origin: {fileID: 0}
   target: {fileID: 0}
---- !u!54 &-302320078904725107
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8923766808711290304}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0

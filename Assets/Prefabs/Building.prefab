@@ -62,7 +62,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxNumberOfUnits: 100
   troopGenerationRate: 10
-  team: red
+  team: 0
   troopNumberText: {fileID: 2845522129377479492}
   selectionCircle: {fileID: 3456772869139268617}
 --- !u!1 &2845522129377479494
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_text: 00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 08566afd28752e34db3659c149e3067d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
