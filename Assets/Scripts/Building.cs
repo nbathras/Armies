@@ -15,13 +15,14 @@ public class Building : MonoBehaviour
 
     public Team team = Team.Netural;
     public TextMeshPro troopNumberText;
+    public int currentTroopNumber;
     public GameObject selectionCircle;
 
     private Renderer modelRenderer;
 
     private void Awake() {
         selectionCircle.SetActive(false);
-        troopNumberText.SetText("40");
+        SetTroopNumber(currentTroopNumber);
         SetLevel(currentLevel);
 
         StartCoroutine(GenerateUnits());
@@ -46,9 +47,7 @@ public class Building : MonoBehaviour
             yield return new WaitForSeconds(1f);
 
             if (team != Team.Netural) {
-                int troopNumber = GetTroopNumber();
-
-                troopNumber += GetTroopGenerationRate();
+                int troopNumber = currentTroopNumber + GetTroopGenerationRate();
 
                 if (troopNumber > GetMaxTroops()) {
                     troopNumber = GetMaxTroops();
@@ -60,11 +59,12 @@ public class Building : MonoBehaviour
     }
 
     public int GetTroopNumber() {
-        return Int32.Parse(troopNumberText.text);
+        return currentTroopNumber;
     }
 
     public void SetTroopNumber(int troopNumber) {
-        troopNumberText.SetText(troopNumber.ToString());
+        currentTroopNumber = troopNumber;
+        troopNumberText.SetText(currentTroopNumber.ToString());
     }
 
     public int GetMaxTroops() {

@@ -9,6 +9,7 @@ public class Unit : MonoBehaviour
     public Team team = Team.Netural;
 
     public TextMeshPro troopNumberText;
+    public int currentTroopNumber;
 
     private Renderer modelRenderer;
 
@@ -25,10 +26,11 @@ public class Unit : MonoBehaviour
     }
 
     public int GetTroopNumber() {
-        return Int32.Parse(troopNumberText.text);
+        return currentTroopNumber;
     }
 
     public void SetTroopNumber(int troopNumber) {
+        currentTroopNumber = troopNumber;
         troopNumberText.SetText(troopNumber.ToString());
     }
 

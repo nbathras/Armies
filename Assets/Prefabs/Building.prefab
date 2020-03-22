@@ -69,6 +69,7 @@ MonoBehaviour:
   - {fileID: 6078942893863789873}
   team: 0
   troopNumberText: {fileID: 2845522129377479492}
+  currentTroopNumber: 40
   selectionCircle: {fileID: 3456772869139268617}
 --- !u!1 &2845522129377479494
 GameObject:
