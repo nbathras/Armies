@@ -15,13 +15,6 @@ public class GameManager : MonoBehaviour
     }
 
     [SerializeField]
-    private InputController inputController;
-    [SerializeField]
-    private AIController aiController;
-    [SerializeField]
-    private Blueprints bluePrints;
-
-    [SerializeField]
     private GameObject backgroundCanvas;
     [SerializeField]
     private GameObject loseText;
@@ -36,6 +29,9 @@ public class GameManager : MonoBehaviour
     public Dictionary<Team, int> buildingCounter;
 
     public Team playerControlledTeam = Team.Red;
+    public int gameLevel = 1;
+
+    public bool isPaused = false;
 
     private void Awake() {
         if (instance == null) {
@@ -51,32 +47,36 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update() {
-        buildingCounter = new Dictionary<Team, int>();
+        if (!isPaused) {
+            buildingCounter = new Dictionary<Team, int>();
 
-        foreach (Building building in buildingList) {
-            if (!buildingCounter.ContainsKey(building.team)) {
-                buildingCounter[building.team] = 0;
+            foreach (Building building in buildingList) {
+                if (!buildingCounter.ContainsKey(building.team)) {
+                    buildingCounter[building.team] = 0;
+                }
+                buildingCounter[building.team] += 1;
             }
-            buildingCounter[building.team] += 1;
-        }
 
-        int numberOfRemainingTeams = 0;
-        foreach (Team team in buildingCounter.Keys) {
-            if (team != Team.Netural && buildingCounter[team] > 0) {
-                numberOfRemainingTeams += 1;
+            int numberOfRemainingTeams = 0;
+            foreach (Team team in buildingCounter.Keys) {
+                if (team != Team.Netural && buildingCounter[team] > 0) {
+                    numberOfRemainingTeams += 1;
+                }
             }
-        }
 
-        if (numberOfRemainingTeams < 2) {
-            StartCoroutine(GameOver());
-        }
+            if (numberOfRemainingTeams < 2) {
+                StartCoroutine(GameOver());
+            }
 
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            StartCoroutine(ExitGame());
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                StartCoroutine(ExitGame());
+            }
         }
     }
 
     private IEnumerator GameOver() {
+        isPaused = true;
+
         backgroundCanvas.SetActive(true);
         if (buildingCounter.ContainsKey(playerControlledTeam)) {
             winText.SetActive(true);
@@ -90,6 +90,8 @@ public class GameManager : MonoBehaviour
     }
 
     private IEnumerator ExitGame() {
+        isPaused = true;
+
         backgroundCanvas.SetActive(true);
         gameOverText.SetActive(true);
         loseText.SetActive(false);

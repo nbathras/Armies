@@ -62,10 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec63d2cab3eaaea40bdad0a2eb812ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxNumberOfUnits: 100
-  troopGenerationRate: 10
-  currentLevel: 0
-  maxLevel: 2
+  currentLevel: 1
   buildingModelStages:
   - {fileID: 1203472362556737204}
   - {fileID: 8087910831069661909}
