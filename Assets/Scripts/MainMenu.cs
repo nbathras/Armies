@@ -3,6 +3,12 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public GameObject mainMenu;
+    public GameObject instructionButton;
+
+    public GameObject instructionMenu;
+    public GameObject backButton;
+
     public void StartLevel1() {
         Debug.Log("Start Scene 1");
 
@@ -19,6 +25,22 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Start Scene 3");
 
         SceneManager.LoadScene(3);
+    }
+
+    public void DisplayInstructions() {
+        mainMenu.SetActive(false);
+        instructionButton.SetActive(false);
+
+        instructionMenu.SetActive(true);
+        backButton.SetActive(true);
+    }
+
+    public void DisplayMainMenu() {
+        mainMenu.SetActive(true);
+        instructionButton.SetActive(true);
+
+        instructionMenu.SetActive(false);
+        backButton.SetActive(false);
     }
 
     public void QuitGame() {
