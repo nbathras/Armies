@@ -55,6 +55,11 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public void StopUnit() {
+        agent.velocity = new Vector3(0f, 0f, 0f);
+        agent.isStopped = true;
+    }
+
     public static float spawnRadius = .5f;
     public static Unit ConstructUnit(Building inOrigin, Building inTarget) {
         Vector3 heading = inOrigin.transform.position - inTarget.transform.position;
@@ -62,6 +67,7 @@ public class Unit : MonoBehaviour
         Vector3 unitPosition = inOrigin.transform.position - headingScaled;
 
         Unit unitComponent = Instantiate(Blueprints.unitStaticPrefab, unitPosition, Quaternion.identity).GetComponent<Unit>();
+        unitComponent.transform.SetParent(GameManager.instance.unitContainer.transform);
         unitComponent.origin = inOrigin;
         unitComponent.target = inTarget;
         unitComponent.SetTeam(inOrigin.team);

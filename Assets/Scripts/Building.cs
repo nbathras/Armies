@@ -10,6 +10,7 @@ public class Building : MonoBehaviour
     private const int STARTING_TROOP_GENERATION_RATE = 10;
 
     public int currentLevel = 1;
+    public bool isStopped = false;
 
     public GameObject[] buildingModelStages;
 
@@ -24,6 +25,7 @@ public class Building : MonoBehaviour
         selectionCircle.SetActive(false);
         SetTroopNumber(currentTroopNumber);
         SetLevel(currentLevel);
+        isStopped = false;
 
         StartCoroutine(GenerateUnits());
     }
@@ -46,7 +48,7 @@ public class Building : MonoBehaviour
         while(true) {
             yield return new WaitForSeconds(1f);
 
-            if (team != Team.Netural) {
+            if (team != Team.Netural&& !isStopped) {
                 int troopNumber = currentTroopNumber + GetTroopGenerationRate();
 
                 if (troopNumber > GetMaxTroops()) {
@@ -78,7 +80,7 @@ public class Building : MonoBehaviour
     public bool Upgrade() {
         int currentTroopNumber = GetTroopNumber();
 
-        if (currentTroopNumber > GetMaxTroops() / 2 && currentLevel < buildingModelStages.Length) {
+        if (currentTroopNumber >= GetMaxTroops() / 2 && currentLevel < buildingModelStages.Length) {
             SetTroopNumber(currentTroopNumber - GetMaxTroops() / 2);
 
             SetLevel(currentLevel + 1);

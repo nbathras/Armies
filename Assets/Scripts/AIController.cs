@@ -32,6 +32,15 @@ public class AIController : MonoBehaviour
             friendlyBuildings.Sort(SortByTroopNumber);
 
             if (enemyBuildings.Count > 0 && friendlyBuildings.Count > 0) {
+                int choice = Random.Range(0, 2);
+
+                if (choice == 0) {
+                    AttemptJointAttack(friendlyBuildings, enemyBuildings);
+                } else {
+                    AttemptJointUpgrade(friendlyBuildings);
+                }
+
+                /*
                 int choice = Random.Range(0, 4);
 
                 if (choice == 0) {
@@ -48,6 +57,7 @@ public class AIController : MonoBehaviour
                         AttemptSingleAttack(friendlyBuildings, enemyBuildings);
                     }
                 }
+                */
             }
         }
     }
@@ -76,6 +86,23 @@ public class AIController : MonoBehaviour
         return false;
     }
 
+    private bool AttemptJointUpgrade(List<Building> friendlyBuildings) {
+        bool didUpgrade = false;
+
+        foreach (Building building in friendlyBuildings) {
+            int currentTroops = building.GetTroopNumber();
+            int maxNumberOfTroops = building.GetMaxTroops();
+
+            if (currentTroops >= maxNumberOfTroops / 2 + 5) {
+                building.Upgrade();
+                didUpgrade = true;
+            }
+        }
+
+        return didUpgrade;
+    }
+
+    /*
     private bool AttemptSingleAttack(List<Building> friendlyBuildings, List<Building> enemyBuildings) {
         int attackForce = friendlyBuildings[0].GetTroopNumber() / 2;
         int weakestEnemy = enemyBuildings[enemyBuildings.Count - 1].GetTroopNumber();
@@ -88,21 +115,22 @@ public class AIController : MonoBehaviour
 
         return false;
     }
+    */
 
-    private bool AttemptUpgrade(List<Building> friendlyBuildings) {
-        int currentTroops = friendlyBuildings[0].GetTroopNumber();
-        int maxNumberOfTroops = friendlyBuildings[0].GetMaxTroops();
+    /*
+private bool AttemptSingleUpgrade(List<Building> friendlyBuildings) {
+    int currentTroops = friendlyBuildings[0].GetTroopNumber();
+    int maxNumberOfTroops = friendlyBuildings[0].GetMaxTroops();
 
-        Debug.Log(currentTroops + " | " + maxNumberOfTroops);
+    if (currentTroops >= maxNumberOfTroops / 2 + 5) {
+        friendlyBuildings[0].Upgrade();
 
-        if (currentTroops > maxNumberOfTroops / 2 + 5) {
-            friendlyBuildings[0].Upgrade();
-
-            return true;
-        }
-
-        return false;
+        return true;
     }
+
+    return false;
+}
+*/
 
     static int SortByTroopNumber(Building b1, Building b2) {
         return -b1.GetTroopNumber().CompareTo(b2.GetTroopNumber());

@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public UIController uIController;
+    public AIController aIController;
+
     public enum Team
     {
         Netural,
@@ -15,23 +18,16 @@ public class GameManager : MonoBehaviour
     }
 
     [SerializeField]
-    private GameObject backgroundCanvas;
-    [SerializeField]
-    private GameObject loseText;
-    [SerializeField]
-    private GameObject winText;
-    [SerializeField]
-    private GameObject gameOverText;
-
-    [SerializeField]
     private GameObject buildingContainer;
     public Building[] buildingList;
     public Dictionary<Team, int> buildingCounter;
 
-    public Team playerControlledTeam = Team.Red;
-    public int gameLevel = 1;
+    public GameObject unitContainer;
+    public Unit[] unitList;
 
-    public bool isPaused = false;
+    public Team playerControlledTeam = Team.Red;
+
+    public bool isGamePaused = false;
 
     private void Awake() {
         if (instance == null) {
@@ -39,15 +35,12 @@ public class GameManager : MonoBehaviour
         }
 
         buildingList = buildingContainer.gameObject.GetComponentsInChildren<Building>();
-
-        backgroundCanvas.SetActive(false);
-        loseText.SetActive(false);
-        winText.SetActive(false);
-        gameOverText.SetActive(false);
     }
 
     private void Update() {
-        if (!isPaused) {
+        if (!isGamePaused) {
+            unitList = unitContainer.gameObject.GetComponentsInChildren<Unit>();
+
             buildingCounter = new Dictionary<Team, int>();
 
             foreach (Building building in buildingList) {
@@ -74,14 +67,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator GameOver() {
-        isPaused = true;
+    private void PauseGame() {
+        if (!isGamePaused) {
+            isGamePaused = true;
+            aIController.isAIActive = false;
 
-        backgroundCanvas.SetActive(true);
+            foreach (Unit unit in unitList) {
+                unit.StopUnit();
+            }
+
+            foreach (Building building in buildingList) {
+                building.isStopped = true;
+            }
+        }
+    }
+
+    private IEnumerator GameOver() {
+        PauseGame();
+
         if (buildingCounter.ContainsKey(playerControlledTeam)) {
-            winText.SetActive(true);
+            uIController.DisplayWinMessage();
         } else {
-            loseText.SetActive(true);
+            uIController.DisplayLoseMessage();
         }
 
         yield return new WaitForSeconds(2f);
@@ -90,12 +97,9 @@ public class GameManager : MonoBehaviour
     }
 
     private IEnumerator ExitGame() {
-        isPaused = true;
+        PauseGame();
 
-        backgroundCanvas.SetActive(true);
-        gameOverText.SetActive(true);
-        loseText.SetActive(false);
-        winText.SetActive(false);
+        uIController.DisplayGameOverMessage();
 
         yield return new WaitForSeconds(2f);
 
