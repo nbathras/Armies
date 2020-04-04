@@ -1,7 +1,7 @@
-﻿public class Castle : Building
+﻿public class Mine : Building
 {
-    protected override int StartingMaxGarrisonSize { get { return 100; } }
-    protected override int StartingTroopGenerationRate { get { return 10; } }
+    protected override int StartingMaxGarrisonSize { get { return 50; } }
+    protected override int StartingTroopGenerationRate { get { return 2; } }
 
     public override int MaxGarrisonSize
     {
