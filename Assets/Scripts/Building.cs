@@ -30,6 +30,7 @@ public abstract class Building : MonoBehaviour
     [SerializeField]
     private GameObject selectionCircle;
 
+    /* Unity Methods */
     private void Awake() {
         // Unpauses building
         isPaused = false;
@@ -64,6 +65,16 @@ public abstract class Building : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.CompareTag("Unit"))
+        {
+            AttemptAttackOnBuilding(collision.gameObject.GetComponent<Unit>());
+        }
+    }
+
+
+
     /* Getters */
     public int GetArmySize()
     {
@@ -79,6 +90,8 @@ public abstract class Building : MonoBehaviour
     {
         return team;
     }
+
+
 
     /* Setters */
     public void SetArmySize(int inArmySize)
@@ -127,6 +140,7 @@ public abstract class Building : MonoBehaviour
     }
 
 
+
     /* Other methods */
     public bool AttemptUpgrade() {
         if (GetArmySize() >= MaxGarrisonSize / 2 && GetBuildingLevel() < buildingModelStages.Length) {
@@ -140,25 +154,43 @@ public abstract class Building : MonoBehaviour
         return false;
     }
 
-    private void OnTriggerEnter(Collider collision) {
-        if (collision.gameObject.CompareTag("Unit")) {
-            Unit unitObject = collision.gameObject.GetComponent<Unit>();
+    private bool AttemptAttackOnBuilding(Unit attacker)
+    {
+        // Check to see if the building is the correct target
+        if (attacker.GetTarget() == this)
+        {
+            int newArmySize;
+            // Army Transfer
+            if (attacker.GetTeam().Equals(team))
+            {
+                newArmySize = attacker.GetArmySize() + GetArmySize();
+            }
+            // Army Attack 
+            else
+            {
+                newArmySize = GetArmySize() - attacker.GetArmySize();
+                if (newArmySize < 0)
+                {
+                    SetTeam(attacker.GetTeam());
+                    newArmySize *= -1;
 
-            if (unitObject.GetOrigin() != this && unitObject.GetTarget() == this) {
-                int newTroopValue;
-                if (unitObject.GetTeam().Equals(team)) {
-                    newTroopValue = unitObject.GetArmySize() + GetArmySize();
-                } else {
-                    newTroopValue = GetArmySize() - unitObject.GetArmySize();
-                    if (newTroopValue < 0) {
-                        SetTeam(unitObject.GetTeam());
-                        newTroopValue *= -1;
+                    if (GetBuildingLevel() > 1)
+                    {
+                        SetBuildingLevel(GetBuildingLevel() - 1);
                     }
                 }
-                SetArmySize(newTroopValue);
-                Destroy(collision.gameObject);
             }
+
+            // Sets the newly calculated army size for the buildig
+            SetArmySize(newArmySize);
+
+            // Destorys attacking unit
+            Destroy(attacker.gameObject);
+
+            return true;
         }
+
+        return false;
     }
 
     public void Select() {
