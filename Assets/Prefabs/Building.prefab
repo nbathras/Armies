@@ -59,17 +59,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 2845522128904533118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec63d2cab3eaaea40bdad0a2eb812ffb, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e29b488378864bd8901e26483bf2f49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLevel: 1
+  buildingLevel: 1
+  armySize: 40
+  team: 0
+  isPaused: 0
   buildingModelStages:
   - {fileID: 1203472362556737204}
   - {fileID: 8087910831069661909}
   - {fileID: 6078942893863789873}
-  team: 0
-  troopNumberText: {fileID: 2845522129377479492}
-  currentTroopNumber: 40
+  armySizeText: {fileID: 2845522129377479492}
   selectionCircle: {fileID: 3456772869139268617}
 --- !u!1 &2845522129377479494
 GameObject:
@@ -85,7 +86,7 @@ GameObject:
   - component: {fileID: 2845522129377479493}
   - component: {fileID: 2845522129377479492}
   m_Layer: 8
-  m_Name: TroopNumberText
+  m_Name: ArmySizeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

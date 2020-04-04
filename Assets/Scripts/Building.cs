@@ -4,86 +4,135 @@ using TMPro;
 using UnityEngine;
 using static GameManager;
 
-public class Building : MonoBehaviour
+public abstract class Building : MonoBehaviour
 {
-    private const int STARTING_MAX_TROOP = 100;
-    private const int STARTING_TROOP_GENERATION_RATE = 10;
+    protected abstract int StartingMaxGarrisonSize { get; }
+    protected abstract int StartingTroopGenerationRate { get; }
 
-    public int currentLevel = 1;
-    public bool isStopped = false;
+    public abstract int MaxGarrisonSize { get; }
+    public abstract int TroopGenerationRate { get; }
 
-    public GameObject[] buildingModelStages;
+    [SerializeField]
+    private int buildingLevel = 1;
+    [SerializeField]
+    private int armySize = 40;
+    [SerializeField]
+    private Team team = Team.Netural;
+    // Controls selectability, troop generation, attack and defense
+    [SerializeField]
+    private bool isPaused = false;
 
-    public Team team = Team.Netural;
-    public TextMeshPro troopNumberText;
-    public int currentTroopNumber;
-    public GameObject selectionCircle;
-
-    private Renderer modelRenderer;
+    // Inspector Set Game Objects
+    [SerializeField]
+    private GameObject[] buildingModelStages;
+    [SerializeField]
+    private TextMeshPro armySizeText;
+    [SerializeField]
+    private GameObject selectionCircle;
 
     private void Awake() {
+        // Unpauses building
+        isPaused = false;
+
+        // Remove selection circle
         selectionCircle.SetActive(false);
-        SetTroopNumber(currentTroopNumber);
-        SetLevel(currentLevel);
-        isStopped = false;
 
-        StartCoroutine(GenerateUnits());
-    }
+        // Sets the intial size of the army
+        SetArmySize(armySize);
 
-    private void SetLevel(int level) {
-        currentLevel = level;
+        // Sets the intial level of the building
+        SetBuildingLevel(buildingLevel);
 
-        for (int i = 0; i < buildingModelStages.Length; i++) {
-            if (i == currentLevel - 1) {
-                buildingModelStages[i].SetActive(true);
-            } else {
-                buildingModelStages[i].SetActive(false);
-            }
-        }
-
+        // Sets the intial team
         SetTeam(team);
-    }
 
-    private IEnumerator GenerateUnits() {
-        while(true) {
-            yield return new WaitForSeconds(1f);
+        // Start troop generation
+        StartCoroutine(GenerateUnitsCoroutine());
 
-            if (team != Team.Netural&& !isStopped) {
-                int troopNumber = currentTroopNumber + GetTroopGenerationRate();
+        IEnumerator GenerateUnitsCoroutine()
+        {
+            while (!isPaused)
+            {
+                yield return new WaitForSeconds(1f);
 
-                if (troopNumber > GetMaxTroops()) {
-                    troopNumber = GetMaxTroops();
+                if (!isPaused && team != Team.Netural &&
+                    GetArmySize() < MaxGarrisonSize)
+                {
+                    SetArmySize(armySize + TroopGenerationRate);
                 }
-
-                SetTroopNumber(troopNumber);
             }
         }
     }
 
-    public int GetTroopNumber() {
-        return currentTroopNumber;
+    /* Getters */
+    public int GetArmySize()
+    {
+        return armySize;
     }
 
-    public void SetTroopNumber(int troopNumber) {
-        currentTroopNumber = troopNumber;
-        troopNumberText.SetText(currentTroopNumber.ToString());
+    public int GetBuildingLevel()
+    {
+        return buildingLevel;
     }
 
-    public int GetMaxTroops() {
-        return STARTING_MAX_TROOP * currentLevel;
+    public Team GetTeam()
+    {
+        return team;
     }
 
-    public int GetTroopGenerationRate() {
-        return STARTING_TROOP_GENERATION_RATE * currentLevel;
+    /* Setters */
+    public void SetArmySize(int inArmySize)
+    {
+        armySize = inArmySize;
+        armySizeText.SetText(GetArmySize().ToString());
     }
 
-    public bool Upgrade() {
-        int currentTroopNumber = GetTroopNumber();
+    private void SetBuildingLevel(int inBuildingLevel)
+    {
+        buildingLevel = inBuildingLevel;
 
-        if (currentTroopNumber >= GetMaxTroops() / 2 && currentLevel < buildingModelStages.Length) {
-            SetTroopNumber(currentTroopNumber - GetMaxTroops() / 2);
+        for (int i = 0; i < buildingModelStages.Length; i++)
+        {
+            buildingModelStages[i].SetActive(i == buildingLevel - 1);
+        }
+    }
 
-            SetLevel(currentLevel + 1);
+    public void SetTeam(Team inTeam)
+    {
+        team = inTeam;
+
+        if (team == Team.Netural)
+        {
+            SetRendererColor(Color.gray);
+        }
+        else
+        {
+            if (team == Team.Red)
+            {
+                SetRendererColor(Color.red);
+            }
+            if (team == Team.Blue)
+            {
+                SetRendererColor(Color.blue);
+            }
+        }
+
+        void SetRendererColor(Color color)
+        {
+            for(int i = 0; i < buildingModelStages.Length; i++)
+            {
+                buildingModelStages[i].GetComponentInChildren<Renderer>().material.color = color;
+            }
+        }
+    }
+
+
+    /* Other methods */
+    public bool AttemptUpgrade() {
+        if (GetArmySize() >= MaxGarrisonSize / 2 && GetBuildingLevel() < buildingModelStages.Length) {
+            SetArmySize(GetArmySize() - MaxGarrisonSize / 2);
+
+            SetBuildingLevel(GetBuildingLevel() + 1);
 
             return true;
         }
@@ -92,39 +141,22 @@ public class Building : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider collision) {
-        if (collision.gameObject.tag == "Unit") {
+        if (collision.gameObject.CompareTag("Unit")) {
             Unit unitObject = collision.gameObject.GetComponent<Unit>();
 
-            if (unitObject.origin != this && unitObject.target == this) {
+            if (unitObject.GetOrigin() != this && unitObject.GetTarget() == this) {
                 int newTroopValue;
-                if (unitObject.team.Equals(team)) {
-                    newTroopValue = unitObject.GetTroopNumber() + GetTroopNumber();
+                if (unitObject.GetTeam().Equals(team)) {
+                    newTroopValue = unitObject.GetArmySize() + GetArmySize();
                 } else {
-                    newTroopValue = GetTroopNumber() - unitObject.GetTroopNumber();
+                    newTroopValue = GetArmySize() - unitObject.GetArmySize();
                     if (newTroopValue < 0) {
-                        SetTeam(unitObject.team);
+                        SetTeam(unitObject.GetTeam());
                         newTroopValue *= -1;
                     }
                 }
-                SetTroopNumber(newTroopValue);
+                SetArmySize(newTroopValue);
                 Destroy(collision.gameObject);
-            }
-        }
-    }
-
-    public void SetTeam(Team inTeam) {
-        team = inTeam;
-
-        modelRenderer = buildingModelStages[currentLevel - 1].GetComponentInChildren<Renderer>();
-
-        if (team == Team.Netural) {
-            modelRenderer.material.color = Color.gray;
-        } else {
-            if (team == Team.Red) {
-                modelRenderer.material.color = Color.red;
-            }
-            if (team == Team.Blue) {
-                modelRenderer.material.color = Color.blue;
             }
         }
     }
@@ -136,5 +168,15 @@ public class Building : MonoBehaviour
     public void DeSelect() {
         selectionCircle.SetActive(false);
         SetTeam(team);
+    }
+
+    public void Pause()
+    {
+        isPaused = true;
+    }
+
+    public void UnPause()
+    {
+        isPaused = false;
     }
 }

@@ -21,7 +21,7 @@ public class AIController : MonoBehaviour
             List<Building> friendlyBuildings = new List<Building>();
 
             foreach (Building building in GameManager.instance.buildingList) {
-                if (building.team == team) {
+                if (building.GetTeam() == team) {
                     friendlyBuildings.Add(building);
                 } else {
                     enemyBuildings.Add(building);
@@ -63,12 +63,12 @@ public class AIController : MonoBehaviour
     }
 
     private bool AttemptJointAttack(List<Building> friendlyBuildings, List<Building> enemyBuildings) {
-        int weakestEnemy = enemyBuildings[enemyBuildings.Count - 1].GetTroopNumber();
+        int weakestEnemy = enemyBuildings[enemyBuildings.Count - 1].GetArmySize();
 
         int attackForceSize = 0;
         List<Building> attackForce = new List<Building>();
         foreach (Building building in friendlyBuildings) {
-            attackForceSize += building.GetTroopNumber() / 2;
+            attackForceSize += building.GetArmySize() / 2;
             attackForce.Add(building);
             if (attackForceSize > weakestEnemy + 5) {
                 break;
@@ -90,11 +90,11 @@ public class AIController : MonoBehaviour
         bool didUpgrade = false;
 
         foreach (Building building in friendlyBuildings) {
-            int currentTroops = building.GetTroopNumber();
-            int maxNumberOfTroops = building.GetMaxTroops();
+            int currentTroops = building.GetArmySize();
+            int maxNumberOfTroops = building.MaxGarrisonSize;
 
             if (currentTroops >= maxNumberOfTroops / 2 + 5) {
-                building.Upgrade();
+                building.AttemptUpgrade();
                 didUpgrade = true;
             }
         }
@@ -133,6 +133,6 @@ private bool AttemptSingleUpgrade(List<Building> friendlyBuildings) {
 */
 
     static int SortByTroopNumber(Building b1, Building b2) {
-        return -b1.GetTroopNumber().CompareTo(b2.GetTroopNumber());
+        return -b1.GetArmySize().CompareTo(b2.GetArmySize());
     }
 }

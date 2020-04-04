@@ -44,10 +44,10 @@ public class GameManager : MonoBehaviour
             buildingCounter = new Dictionary<Team, int>();
 
             foreach (Building building in buildingList) {
-                if (!buildingCounter.ContainsKey(building.team)) {
-                    buildingCounter[building.team] = 0;
+                if (!buildingCounter.ContainsKey(building.GetTeam())) {
+                    buildingCounter[building.GetTeam()] = 0;
                 }
-                buildingCounter[building.team] += 1;
+                buildingCounter[building.GetTeam()] += 1;
             }
 
             int numberOfRemainingTeams = 0;
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
             }
 
             foreach (Building building in buildingList) {
-                building.isStopped = true;
+                building.Pause();
             }
         }
     }

@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 1330834679693653262}
   - component: {fileID: 2353304541103894204}
   m_Layer: 0
-  m_Name: TroopNumberText
+  m_Name: ArmyTextSize
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -292,10 +292,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8648799958462636985}
+  - component: {fileID: 865084415159819873}
   - component: {fileID: 7976396885157399807}
   - component: {fileID: 157665524450410977}
   - component: {fileID: -8589130978746000727}
-  - component: {fileID: 865084415159819873}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Unit
@@ -319,6 +319,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &865084415159819873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8923766808711290304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e48329b64960a4146b614bed78ecb61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0
+  armySize: 0
+  armySizeText: {fileID: 2353304541103894204}
 --- !u!135 &7976396885157399807
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -370,19 +385,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &865084415159819873
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8923766808711290304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48329b64960a4146b614bed78ecb61a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team: 0
-  troopNumberText: {fileID: 2353304541103894204}
-  origin: {fileID: 0}
-  target: {fileID: 0}
