@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIController : MonoBehaviour
+public class AIController
 {
-    public GameManager.Team team = GameManager.Team.Blue;
+    // public GameManager.Team team = GameManager.Team.Blue;
+    public Team.TeamOption teamOption;
     public bool isAIActive = true;
     public float aIDecisionSpeed = 1f;
 
-    void Start()
+    public AIController(Team.TeamOption inTeamOption)
     {
-        StartCoroutine(AICoroutine());
+        teamOption = inTeamOption;
+        GameManager.instance.StartCoroutine(AICoroutine());
     }
 
     private IEnumerator AICoroutine() {
@@ -21,7 +23,7 @@ public class AIController : MonoBehaviour
             List<Building> friendlyBuildings = new List<Building>();
 
             foreach (Building building in GameManager.instance.buildingList) {
-                if (building.GetTeam() == team) {
+                if (building.GetTeam() == teamOption) {
                     friendlyBuildings.Add(building);
                 } else {
                     enemyBuildings.Add(building);

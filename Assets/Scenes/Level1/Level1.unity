@@ -672,6 +672,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5425382592776569227, guid: f353f6e06108ded40998815e1e06a6c5,
         type: 3}
+      propertyPath: activeTeams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5425382592776569227, guid: f353f6e06108ded40998815e1e06a6c5,
+        type: 3}
       propertyPath: uIController
       value: 
       objectReference: {fileID: 1485073785}
@@ -685,6 +690,26 @@ PrefabInstance:
       propertyPath: unitContainer
       value: 
       objectReference: {fileID: 1152049538}
+    - target: {fileID: 5425382592776569227, guid: f353f6e06108ded40998815e1e06a6c5,
+        type: 3}
+      propertyPath: activeTeams.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5425382592776569227, guid: f353f6e06108ded40998815e1e06a6c5,
+        type: 3}
+      propertyPath: activeTeams.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5425382592776569227, guid: f353f6e06108ded40998815e1e06a6c5,
+        type: 3}
+      propertyPath: activeTeams.Array.data[2]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5425382592776569227, guid: f353f6e06108ded40998815e1e06a6c5,
+        type: 3}
+      propertyPath: playerControlledTeam
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5425382592776569328, guid: f353f6e06108ded40998815e1e06a6c5,
         type: 3}
       propertyPath: m_Name
@@ -745,7 +770,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5425382592776569332, guid: f353f6e06108ded40998815e1e06a6c5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f353f6e06108ded40998815e1e06a6c5, type: 3}
 --- !u!1001 &584920964
 PrefabInstance:
@@ -757,7 +783,7 @@ PrefabInstance:
     - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: team
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
@@ -1386,7 +1412,7 @@ PrefabInstance:
     - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: team
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
@@ -1983,7 +2009,7 @@ PrefabInstance:
     - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: team
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
@@ -2455,7 +2481,7 @@ PrefabInstance:
     - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: team
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533118, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}

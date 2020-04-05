@@ -17,7 +17,7 @@ public abstract class Building : MonoBehaviour
     [SerializeField]
     private int armySize = 40;
     [SerializeField]
-    private Team team = Team.Netural;
+    private Team.TeamOption team = Team.TeamOption.Netural;
     // Controls selectability, troop generation, attack and defense
     [SerializeField]
     private bool isPaused = false;
@@ -56,7 +56,7 @@ public abstract class Building : MonoBehaviour
             {
                 yield return new WaitForSeconds(1f);
 
-                if (!isPaused && team != Team.Netural &&
+                if (!isPaused && team != Team.TeamOption.Netural &&
                     GetArmySize() < MaxGarrisonSize)
                 {
                     SetArmySize(armySize + TroopGenerationRate);
@@ -86,7 +86,7 @@ public abstract class Building : MonoBehaviour
         return buildingLevel;
     }
 
-    public Team GetTeam()
+    public Team.TeamOption GetTeam()
     {
         return team;
     }
@@ -110,23 +110,31 @@ public abstract class Building : MonoBehaviour
         }
     }
 
-    public void SetTeam(Team inTeam)
+    public void SetTeam(Team.TeamOption inTeam)
     {
         team = inTeam;
 
-        if (team == Team.Netural)
+        if (team == Team.TeamOption.Netural)
         {
             SetRendererColor(Color.gray);
         }
         else
         {
-            if (team == Team.Red)
+            if (team == Team.TeamOption.Red)
             {
                 SetRendererColor(Color.red);
             }
-            if (team == Team.Blue)
+            if (team == Team.TeamOption.Blue)
             {
                 SetRendererColor(Color.blue);
+            }
+            if (team == Team.TeamOption.Green)
+            {
+                SetRendererColor(Color.green);
+            }
+            if (team == Team.TeamOption.Yellow)
+            {
+                SetRendererColor(Color.yellow);
             }
         }
 

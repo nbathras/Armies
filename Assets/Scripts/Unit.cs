@@ -6,7 +6,7 @@ using static GameManager;
 public class Unit : MonoBehaviour
 {
     [SerializeField]
-    private Team team = Team.Netural;
+    private Team.TeamOption team = Team.TeamOption.Netural;
     [SerializeField]
     private int armySize;
 
@@ -38,7 +38,7 @@ public class Unit : MonoBehaviour
         return armySize;
     }
 
-    public Team GetTeam()
+    public Team.TeamOption GetTeam()
     {
         return team;
     }
@@ -61,23 +61,31 @@ public class Unit : MonoBehaviour
         armySizeText.SetText(GetArmySize().ToString());
     }
 
-    public void SetTeam(Team inTeam)
+    public void SetTeam(Team.TeamOption inTeam)
     {
         team = inTeam;
 
-        if (team == Team.Netural)
+        if (team == Team.TeamOption.Netural)
         {
             SetRendererColor(Color.gray);
         }
         else
         {
-            if (team == Team.Red)
+            if (team == Team.TeamOption.Red)
             {
                 SetRendererColor(Color.red);
             }
-            if (team == Team.Blue)
+            if (team == Team.TeamOption.Blue)
             {
                 SetRendererColor(Color.blue);
+            }
+            if (team == Team.TeamOption.Green)
+            {
+                SetRendererColor(Color.green);
+            }
+            if (team == Team.TeamOption.Yellow)
+            {
+                SetRendererColor(Color.yellow);
             }
         }
 

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5425382592776569227}
   - component: {fileID: 5425382592776569334}
   - component: {fileID: 5425382592776569335}
-  - component: {fileID: 5425382592776569332}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -47,12 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uIController: {fileID: 0}
-  aIController: {fileID: 5425382592776569332}
   buildingContainer: {fileID: 0}
   buildingList: []
   unitContainer: {fileID: 0}
   unitList: []
   playerControlledTeam: 1
+  activeTeams: 
   isGamePaused: 0
 --- !u!114 &5425382592776569334
 MonoBehaviour:
@@ -83,18 +82,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitPrefab: {fileID: 8923766808711290304, guid: 66b46bdbe79e25041915aad955196a20,
     type: 3}
---- !u!114 &5425382592776569332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5425382592776569328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bc88bfd1de91c1469789826de646ebb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team: 2
-  isAIActive: 1
-  aIDecisionSpeed: 0.5

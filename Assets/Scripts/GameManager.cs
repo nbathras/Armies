@@ -8,24 +8,18 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public UIController uIController;
-    public AIController aIController;
-
-    public enum Team
-    {
-        Netural,
-        Red,
-        Blue,
-    }
+    // public AIController aIController;
 
     [SerializeField]
     private GameObject buildingContainer;
     public Building[] buildingList;
-    public Dictionary<Team, int> buildingCounter;
+    public Dictionary<Team.TeamOption, int> buildingCounter;
 
     public GameObject unitContainer;
     public Unit[] unitList;
 
-    public Team playerControlledTeam = Team.Red;
+    public Team.TeamOption playerControlledTeam = Team.TeamOption.Red;
+    private List<Team> teamList;
 
     public bool isGamePaused = false;
 
@@ -35,29 +29,45 @@ public class GameManager : MonoBehaviour
         }
 
         buildingList = buildingContainer.gameObject.GetComponentsInChildren<Building>();
+        GenerateBuildingCounter();
+
+        teamList = new List<Team>();
+        foreach (Team.TeamOption teamOption in buildingCounter.Keys)
+        {
+            teamList.Add(new Team(teamOption, teamOption == playerControlledTeam));
+        }
+    }
+
+    private void GenerateUnitList()
+    {
+        unitList = unitContainer.gameObject.GetComponentsInChildren<Unit>();
+    }
+
+    private void GenerateBuildingCounter()
+    {
+        buildingCounter = new Dictionary<Team.TeamOption, int>();
+
+        foreach (Building building in buildingList)
+        {
+            if (building.GetTeam() == Team.TeamOption.Netural)
+            {
+                continue;
+            }
+
+            if (!buildingCounter.ContainsKey(building.GetTeam()))
+            {
+                buildingCounter[building.GetTeam()] = 0;
+            }
+            buildingCounter[building.GetTeam()] += 1;
+        }
     }
 
     private void Update() {
         if (!isGamePaused) {
-            unitList = unitContainer.gameObject.GetComponentsInChildren<Unit>();
+            GenerateUnitList();
+            GenerateBuildingCounter();
 
-            buildingCounter = new Dictionary<Team, int>();
-
-            foreach (Building building in buildingList) {
-                if (!buildingCounter.ContainsKey(building.GetTeam())) {
-                    buildingCounter[building.GetTeam()] = 0;
-                }
-                buildingCounter[building.GetTeam()] += 1;
-            }
-
-            int numberOfRemainingTeams = 0;
-            foreach (Team team in buildingCounter.Keys) {
-                if (team != Team.Netural && buildingCounter[team] > 0) {
-                    numberOfRemainingTeams += 1;
-                }
-            }
-
-            if (numberOfRemainingTeams < 2) {
+            if (buildingCounter.Keys.Count < 2) {
                 StartCoroutine(GameOver());
             }
 
@@ -70,7 +80,7 @@ public class GameManager : MonoBehaviour
     private void PauseGame() {
         if (!isGamePaused) {
             isGamePaused = true;
-            aIController.isAIActive = false;
+            // aIController.isAIActive = false;
 
             foreach (Unit unit in unitList) {
                 unit.StopUnit();
