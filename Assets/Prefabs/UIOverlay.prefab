@@ -169,7 +169,6 @@ GameObject:
   - component: {fileID: 1313690632258869911}
   - component: {fileID: 3700542887178146486}
   - component: {fileID: 143841566912261486}
-  - component: {fileID: 9206182237263335195}
   m_Layer: 5
   m_Name: UITextOverlay
   m_TagString: Untagged
@@ -295,22 +294,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9206182237263335195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1733641849164118763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a690d4ba34316d64a80772471773269a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  backgroundCanvas: {fileID: 1733641849164118763}
-  loseText: {fileID: 2028997710535223964}
-  winText: {fileID: 628912603429877908}
-  gameOverText: {fileID: 7108022526381797948}
 --- !u!1 &2028997710535223964
 GameObject:
   m_ObjectHideFlags: 0
@@ -1040,6 +1023,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7903036342561980001}
+  - component: {fileID: 1205757114881133652}
   m_Layer: 5
   m_Name: UIOverlay
   m_TagString: Untagged
@@ -1068,3 +1052,21 @@ RectTransform:
   m_AnchoredPosition: {x: 367.5, y: 206.5}
   m_SizeDelta: {x: 735, y: 413}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1205757114881133652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7903036342561980011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a690d4ba34316d64a80772471773269a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundCanvas: {fileID: 1733641849164118763}
+  loseText: {fileID: 2028997710535223964}
+  winText: {fileID: 628912603429877908}
+  gameOverText: {fileID: 7108022526381797948}
+  goldResourceText: {fileID: 4279108351416285729}
+  foodResourceText: {fileID: 6186411187635841694}

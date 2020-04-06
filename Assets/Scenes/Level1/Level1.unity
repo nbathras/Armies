@@ -310,6 +310,11 @@ PrefabInstance:
       propertyPath: troopGenerationRate
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: startingTeam
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533118, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: m_Name
@@ -679,7 +684,7 @@ PrefabInstance:
         type: 3}
       propertyPath: uIController
       value: 
-      objectReference: {fileID: 1485073785}
+      objectReference: {fileID: 966278533}
     - target: {fileID: 5425382592776569227, guid: f353f6e06108ded40998815e1e06a6c5,
         type: 3}
       propertyPath: buildingContainer
@@ -1412,7 +1417,7 @@ PrefabInstance:
     - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: team
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
@@ -1423,6 +1428,11 @@ PrefabInstance:
         type: 3}
       propertyPath: troopGenerationRate
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: startingTeam
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533118, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
@@ -1719,6 +1729,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &966278533 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1205757114881133652, guid: df13de59b5dbfa5489dc0768caee0da3,
+    type: 3}
+  m_PrefabInstance: {fileID: 2065896359}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a690d4ba34316d64a80772471773269a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &995190326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1729,7 +1751,7 @@ PrefabInstance:
     - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: team
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
@@ -1740,6 +1762,11 @@ PrefabInstance:
         type: 3}
       propertyPath: troopGenerationRate
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: startingTeam
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533118, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
@@ -1963,18 +1990,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2845522127964616598}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1485073785 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9206182237263335195, guid: df13de59b5dbfa5489dc0768caee0da3,
-    type: 3}
-  m_PrefabInstance: {fileID: 2065896359}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a690d4ba34316d64a80772471773269a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1582673804 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2845522128904533119, guid: cf564ba9cce8d16479e32f85afb1e639,
@@ -2009,7 +2024,7 @@ PrefabInstance:
     - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
       propertyPath: team
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}
@@ -2020,6 +2035,11 @@ PrefabInstance:
         type: 3}
       propertyPath: troopGenerationRate
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845522128904533116, guid: cf564ba9cce8d16479e32f85afb1e639,
+        type: 3}
+      propertyPath: startingTeam
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2845522128904533118, guid: cf564ba9cce8d16479e32f85afb1e639,
         type: 3}

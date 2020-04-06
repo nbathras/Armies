@@ -1,16 +1,47 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
-using static GameManager;
 
 public abstract class Building : MonoBehaviour
 {
+    // ToDo:
+    // Should create a Building Controller that handles all Coroutines.
+    // I think to many Coroutines are running at the moment
+
     protected abstract int StartingMaxGarrisonSize { get; }
     protected abstract int StartingTroopGenerationRate { get; }
+    protected abstract int StartingFoodGenerationRate { get; }
+    protected abstract int StartingGoldGenerationRate { get; }
 
-    public abstract int MaxGarrisonSize { get; }
-    public abstract int TroopGenerationRate { get; }
+    public int MaxGarrisonSize
+    {
+        get
+        {
+            return GetBuildingLevel() * StartingMaxGarrisonSize;
+        }
+    }
+
+    public int TroopGenerationRate
+    {
+        get
+        {
+            return GetBuildingLevel() * StartingTroopGenerationRate;
+        }
+    }
+    public int FoodGenerationRate
+    {
+        get
+        {
+            return GetBuildingLevel() * StartingFoodGenerationRate;
+        }
+    }
+    public int GoldGenerationRate
+    {
+        get
+        {
+            return GetBuildingLevel() * StartingGoldGenerationRate;
+        }
+    }
 
     [SerializeField]
     private int buildingLevel = 1;
@@ -31,7 +62,7 @@ public abstract class Building : MonoBehaviour
     private GameObject selectionCircle;
 
     /* Unity Methods */
-    private void Awake() {
+    private void Start() {
         // Unpauses building
         isPaused = false;
 
@@ -56,10 +87,16 @@ public abstract class Building : MonoBehaviour
             {
                 yield return new WaitForSeconds(1f);
 
-                if (!isPaused && team != Team.TeamOption.Netural &&
-                    GetArmySize() < MaxGarrisonSize)
+                if (!isPaused && team != Team.TeamOption.Netural)
                 {
-                    SetArmySize(armySize + TroopGenerationRate);
+                    Team buildingTeam = GameManager.instance.GetTeam(team);
+
+                    if (GetArmySize() < MaxGarrisonSize)
+                    {
+                        SetArmySize(armySize + TroopGenerationRate);
+                    }
+                    buildingTeam.SetFood(buildingTeam.GetFood() + FoodGenerationRate);
+                    buildingTeam.SetGold(buildingTeam.GetGold() + GoldGenerationRate);
                 }
             }
         }
@@ -142,7 +179,10 @@ public abstract class Building : MonoBehaviour
         {
             for(int i = 0; i < buildingModelStages.Length; i++)
             {
-                buildingModelStages[i].GetComponentInChildren<Renderer>().material.color = color;
+                foreach (Renderer renderer in buildingModelStages[i].GetComponentsInChildren<Renderer>())
+                {
+                    renderer.material.color = color;
+                }
             }
         }
     }

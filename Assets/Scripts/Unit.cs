@@ -5,8 +5,7 @@ using static GameManager;
 
 public class Unit : MonoBehaviour
 {
-    [SerializeField]
-    private Team.TeamOption team = Team.TeamOption.Netural;
+    private Team.TeamOption team;
     [SerializeField]
     private int armySize;
 
@@ -65,7 +64,7 @@ public class Unit : MonoBehaviour
     {
         team = inTeam;
 
-        if (team == Team.TeamOption.Netural)
+        if (team== Team.TeamOption.Netural)
         {
             SetRendererColor(Color.gray);
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIController : MonoBehaviour
@@ -13,11 +14,19 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private GameObject gameOverText;
 
+    [SerializeField]
+    private TextMeshProUGUI goldResourceText;
+    [SerializeField]
+    private TextMeshProUGUI foodResourceText;
+
     private void Awake() {
         backgroundCanvas.SetActive(false);
         loseText.SetActive(false);
         winText.SetActive(false);
         gameOverText.SetActive(false);
+
+        goldResourceText.gameObject.SetActive(true);
+        foodResourceText.gameObject.SetActive(true);
     }
 
     public void DisplayLoseMessage() {
@@ -39,5 +48,15 @@ public class UIController : MonoBehaviour
         loseText.SetActive(false);
         winText.SetActive(false);
         gameOverText.SetActive(true);
+    }
+
+    public void SetGoldResourceText(int goldResource)
+    {
+        goldResourceText.text = "Gold:\t" + goldResource.ToString();
+    }
+
+    public void SetFoodResourceText(int foodResource)
+    {
+        foodResourceText.text = "Food:\t" + foodResource.ToString();
     }
 }

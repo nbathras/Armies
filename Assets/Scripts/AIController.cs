@@ -22,7 +22,7 @@ public class AIController
             List<Building> enemyBuildings = new List<Building>();
             List<Building> friendlyBuildings = new List<Building>();
 
-            foreach (Building building in GameManager.instance.buildingList) {
+            foreach (Building building in GameManager.instance.GetBuildingsList()) {
                 if (building.GetTeam() == teamOption) {
                     friendlyBuildings.Add(building);
                 } else {
