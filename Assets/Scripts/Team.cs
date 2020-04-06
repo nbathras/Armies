@@ -2,7 +2,7 @@
 
 public class Team
 {
-    public enum TeamOption
+    public enum TeamName
     {
         Netural,
         Red,
@@ -11,21 +11,21 @@ public class Team
         Yellow,
     }
 
-    private TeamOption teamOption;
+    private readonly TeamName teamName;
     public AIController aIController;
 
     private int food;
     private int gold;
 
-    public Team(TeamOption inTeamOption, bool isPlayerControlled)
+    public Team(TeamName inTeamName, bool isPlayerControlled)
     {
         SetFood(100);
         SetGold(100);
 
-        teamOption = inTeamOption;
+        teamName = inTeamName;
         if (!isPlayerControlled)
         {
-            aIController = new AIController(inTeamOption);
+            aIController = new AIController(inTeamName);
         }
     }
 
@@ -40,9 +40,9 @@ public class Team
         return gold;
     }
 
-    public TeamOption GetTeamOption()
+    public TeamName GetTeamOption()
     {
-        return teamOption;
+        return teamName;
     }
 
     /* Setters */

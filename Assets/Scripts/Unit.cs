@@ -5,7 +5,7 @@ using static GameManager;
 
 public class Unit : MonoBehaviour
 {
-    private Team.TeamOption team;
+    private Team.TeamName teamName;
     [SerializeField]
     private int armySize;
 
@@ -37,9 +37,9 @@ public class Unit : MonoBehaviour
         return armySize;
     }
 
-    public Team.TeamOption GetTeam()
+    public Team.TeamName GetTeamName()
     {
-        return team;
+        return teamName;
     }
 
     public Building GetOrigin()
@@ -60,29 +60,29 @@ public class Unit : MonoBehaviour
         armySizeText.SetText(GetArmySize().ToString());
     }
 
-    public void SetTeam(Team.TeamOption inTeam)
+    public void SetTeam(Team.TeamName inTeam)
     {
-        team = inTeam;
+        teamName = inTeam;
 
-        if (team== Team.TeamOption.Netural)
+        if (teamName== Team.TeamName.Netural)
         {
             SetRendererColor(Color.gray);
         }
         else
         {
-            if (team == Team.TeamOption.Red)
+            if (teamName == Team.TeamName.Red)
             {
                 SetRendererColor(Color.red);
             }
-            if (team == Team.TeamOption.Blue)
+            if (teamName == Team.TeamName.Blue)
             {
                 SetRendererColor(Color.blue);
             }
-            if (team == Team.TeamOption.Green)
+            if (teamName == Team.TeamName.Green)
             {
                 SetRendererColor(Color.green);
             }
-            if (team == Team.TeamOption.Yellow)
+            if (teamName == Team.TeamName.Yellow)
             {
                 SetRendererColor(Color.yellow);
             }
@@ -113,7 +113,7 @@ public class Unit : MonoBehaviour
         unitComponent.transform.SetParent(GameManager.instance.unitContainer.transform);
         unitComponent.origin = inOrigin;
         unitComponent.target = inTarget;
-        unitComponent.SetTeam(inOrigin.GetTeam());
+        unitComponent.SetTeam(inOrigin.GetTeamName());
 
         int numberOfDeployedTroops = (int) (inOrigin.GetArmySize() / 2);
         inOrigin.SetArmySize(inOrigin.GetArmySize() - numberOfDeployedTroops);

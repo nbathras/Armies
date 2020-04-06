@@ -48,7 +48,7 @@ public abstract class Building : MonoBehaviour
     [SerializeField]
     private int armySize = 40;
     [SerializeField]
-    private Team.TeamOption team = Team.TeamOption.Netural;
+    private Team.TeamName teamName = Team.TeamName.Netural;
     // Controls selectability, troop generation, attack and defense
     [SerializeField]
     private bool isPaused = false;
@@ -76,7 +76,7 @@ public abstract class Building : MonoBehaviour
         SetBuildingLevel(buildingLevel);
 
         // Sets the intial team
-        SetTeam(team);
+        SetTeam(teamName);
 
         // Start troop generation
         StartCoroutine(GenerateUnitsCoroutine());
@@ -87,9 +87,9 @@ public abstract class Building : MonoBehaviour
             {
                 yield return new WaitForSeconds(1f);
 
-                if (!isPaused && team != Team.TeamOption.Netural)
+                if (!isPaused && teamName != Team.TeamName.Netural)
                 {
-                    Team buildingTeam = GameManager.instance.GetTeam(team);
+                    Team buildingTeam = GameManager.instance.GetTeam(teamName);
 
                     if (GetArmySize() < MaxGarrisonSize)
                     {
@@ -123,9 +123,9 @@ public abstract class Building : MonoBehaviour
         return buildingLevel;
     }
 
-    public Team.TeamOption GetTeam()
+    public Team.TeamName GetTeamName()
     {
-        return team;
+        return teamName;
     }
 
 
@@ -147,29 +147,29 @@ public abstract class Building : MonoBehaviour
         }
     }
 
-    public void SetTeam(Team.TeamOption inTeam)
+    public void SetTeam(Team.TeamName inTeam)
     {
-        team = inTeam;
+        teamName = inTeam;
 
-        if (team == Team.TeamOption.Netural)
+        if (teamName == Team.TeamName.Netural)
         {
             SetRendererColor(Color.gray);
         }
         else
         {
-            if (team == Team.TeamOption.Red)
+            if (teamName == Team.TeamName.Red)
             {
                 SetRendererColor(Color.red);
             }
-            if (team == Team.TeamOption.Blue)
+            if (teamName == Team.TeamName.Blue)
             {
                 SetRendererColor(Color.blue);
             }
-            if (team == Team.TeamOption.Green)
+            if (teamName == Team.TeamName.Green)
             {
                 SetRendererColor(Color.green);
             }
-            if (team == Team.TeamOption.Yellow)
+            if (teamName == Team.TeamName.Yellow)
             {
                 SetRendererColor(Color.yellow);
             }
@@ -192,9 +192,9 @@ public abstract class Building : MonoBehaviour
     /* Other methods */
     public bool AttemptUpgrade() {
         if (GetBuildingLevel() < buildingModelStages.Length && // check for max level 
-            GameManager.instance.GetTeam(team).GetGold() >= GetBuildingLevel() * 100)
+            GameManager.instance.GetTeam(teamName).GetGold() >= GetBuildingLevel() * 100)
         {
-            GameManager.instance.GetTeam(team).SetGold(GameManager.instance.GetTeam(team).GetGold() - GetBuildingLevel() * 100);
+            GameManager.instance.GetTeam(teamName).SetGold(GameManager.instance.GetTeam(teamName).GetGold() - GetBuildingLevel() * 100);
 
             SetBuildingLevel(GetBuildingLevel() + 1);
 
@@ -223,7 +223,7 @@ public abstract class Building : MonoBehaviour
         {
             int newArmySize;
             // Army Transfer
-            if (attacker.GetTeam().Equals(team))
+            if (attacker.GetTeamName().Equals(teamName))
             {
                 newArmySize = attacker.GetArmySize() + GetArmySize();
             }
@@ -233,7 +233,7 @@ public abstract class Building : MonoBehaviour
                 newArmySize = GetArmySize() - attacker.GetArmySize();
                 if (newArmySize < 0)
                 {
-                    SetTeam(attacker.GetTeam());
+                    SetTeam(attacker.GetTeamName());
                     newArmySize *= -1;
 
                     if (GetBuildingLevel() > 1)
@@ -261,7 +261,7 @@ public abstract class Building : MonoBehaviour
 
     public void DeSelect() {
         selectionCircle.SetActive(false);
-        SetTeam(team);
+        SetTeam(teamName);
     }
 
     public void Pause()

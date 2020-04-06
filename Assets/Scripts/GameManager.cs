@@ -19,11 +19,11 @@ public class GameManager : MonoBehaviour
     // Gamestate structures
     private Building[] buildingList;
     private Unit[] unitList;
-    public Dictionary<Team.TeamOption, Team> teamDictionary;
-    public Dictionary<Team.TeamOption, int> buildingCountDictionary;
+    public Dictionary<Team.TeamName, Team> teamDictionary;
+    public Dictionary<Team.TeamName, int> buildingCountDictionary;
 
     // Game Parameters
-    public Team.TeamOption playerControlledTeam = Team.TeamOption.Red;
+    public Team.TeamName playerControlledTeam = Team.TeamName.Red;
     public bool isGamePaused = false;
 
     /* Unity Functions */
@@ -75,12 +75,12 @@ public class GameManager : MonoBehaviour
             throw new Exception("Custom Error: Cannot generate teams with null buidling list");
         }
 
-        teamDictionary = new Dictionary<Team.TeamOption, Team>();
+        teamDictionary = new Dictionary<Team.TeamName, Team>();
         foreach (Building building in buildingList)
         {
-            Team.TeamOption buildingTeam = building.GetTeam();
+            Team.TeamName buildingTeam = building.GetTeamName();
 
-            if (!teamDictionary.ContainsKey(buildingTeam) && buildingTeam != Team.TeamOption.Netural)
+            if (!teamDictionary.ContainsKey(buildingTeam) && buildingTeam != Team.TeamName.Netural)
             {
                 teamDictionary[buildingTeam] = new Team(
                     buildingTeam,
@@ -92,11 +92,11 @@ public class GameManager : MonoBehaviour
 
     private void GenerateBuildingCount()
     {
-        buildingCountDictionary = new Dictionary<Team.TeamOption, int>();
+        buildingCountDictionary = new Dictionary<Team.TeamName, int>();
         foreach (Building building in buildingList)
         {
-            Team.TeamOption buildingTeam = building.GetTeam();
-            if (buildingTeam == Team.TeamOption.Netural)
+            Team.TeamName buildingTeam = building.GetTeamName();
+            if (buildingTeam == Team.TeamName.Netural)
             {
                 continue;
             }
@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
 
 
     /* Getters */
-    public Team GetTeam(Team.TeamOption teamOption)
+    public Team GetTeam(Team.TeamName teamOption)
     {
         return teamDictionary[teamOption];
     }
