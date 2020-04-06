@@ -191,6 +191,19 @@ public abstract class Building : MonoBehaviour
 
     /* Other methods */
     public bool AttemptUpgrade() {
+        if (GetBuildingLevel() < buildingModelStages.Length && // check for max level 
+            GameManager.instance.GetTeam(team).GetGold() >= GetBuildingLevel() * 100)
+        {
+            GameManager.instance.GetTeam(team).SetGold(GameManager.instance.GetTeam(team).GetGold() - GetBuildingLevel() * 100);
+
+            SetBuildingLevel(GetBuildingLevel() + 1);
+
+            return true;
+        }
+
+        return false;
+
+        /*
         if (GetArmySize() >= MaxGarrisonSize / 2 && GetBuildingLevel() < buildingModelStages.Length) {
             SetArmySize(GetArmySize() - MaxGarrisonSize / 2);
 
@@ -200,6 +213,7 @@ public abstract class Building : MonoBehaviour
         }
 
         return false;
+        */
     }
 
     private bool AttemptAttackOnBuilding(Unit attacker)
