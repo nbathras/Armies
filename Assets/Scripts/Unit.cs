@@ -3,11 +3,13 @@ using UnityEngine;
 using UnityEngine.AI;
 using static GameManager;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class Unit : MonoBehaviour
 {
-    private Team.TeamName teamName;
     [SerializeField]
     private int armySize;
+    [SerializeField]
+    private float locomationAnimationSmoothTime = .1f;
 
     // Inspector Set Game Objects
     [SerializeField]
@@ -15,12 +17,15 @@ public class Unit : MonoBehaviour
 
     // Script Set Game Objects
     private NavMeshAgent agent;
+    private Animator animator;
+    private Team.TeamName teamName;
     private Building origin;
     private Building target;
 
     private void Awake() {
         // Get NavMeshAgent Component
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -29,6 +34,9 @@ public class Unit : MonoBehaviour
         {
             agent.SetDestination(target.gameObject.transform.position);
         }
+
+        float speedPercent = agent.velocity.magnitude / agent.speed;
+        animator.SetFloat("speedPercent", speedPercent, locomationAnimationSmoothTime, Time.deltaTime);
     }
 
     /* Getters */
