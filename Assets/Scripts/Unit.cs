@@ -7,6 +7,15 @@ using static GameManager;
 public class Unit : MonoBehaviour
 {
     [SerializeField]
+    private Material redMaterial;
+    [SerializeField]
+    private Material yellowMaterial;
+    [SerializeField]
+    private Material greenMaterial;
+    [SerializeField]
+    private Material blueMaterial;
+
+    [SerializeField]
     private int armySize;
     [SerializeField]
     private float locomationAnimationSmoothTime = .1f;
@@ -74,32 +83,42 @@ public class Unit : MonoBehaviour
 
         if (teamName== Team.TeamName.Netural)
         {
-            SetRendererColor(Color.gray);
+            // SetRendererColor(Color.gray);
         }
         else
         {
             if (teamName == Team.TeamName.Red)
             {
-                SetRendererColor(Color.red);
+                // SetRendererColor(Color.red);
+                gameObject.GetComponentInChildren<Renderer>().material = redMaterial;
+                armySizeText.color = Color.red;
             }
             if (teamName == Team.TeamName.Blue)
             {
-                SetRendererColor(Color.blue);
+                // SetRendererColor(Color.blue);
+                gameObject.GetComponentInChildren<Renderer>().material = blueMaterial;
+                armySizeText.color = Color.blue;
             }
             if (teamName == Team.TeamName.Green)
             {
-                SetRendererColor(Color.green);
+                // SetRendererColor(Color.green);
+                gameObject.GetComponentInChildren<Renderer>().material = greenMaterial;
+                armySizeText.color = Color.green;
             }
             if (teamName == Team.TeamName.Yellow)
             {
-                SetRendererColor(Color.yellow);
+                // SetRendererColor(Color.yellow);
+                gameObject.GetComponentInChildren<Renderer>().material = yellowMaterial;
+                armySizeText.color = Color.yellow;
             }
         }
 
+        /*
         void SetRendererColor(Color color)
         {
             gameObject.GetComponentInChildren<Renderer>().material.color = color;
         }
+        */
     }
 
 
@@ -119,6 +138,7 @@ public class Unit : MonoBehaviour
 
         Unit unitComponent = Instantiate(Blueprints.unitStaticPrefab, unitPosition, Quaternion.identity).GetComponent<Unit>();
         unitComponent.transform.SetParent(GameManager.instance.unitContainer.transform);
+        unitComponent.transform.LookAt(inTarget.transform);
         unitComponent.origin = inOrigin;
         unitComponent.target = inTarget;
         unitComponent.SetTeam(inOrigin.GetTeamName());
