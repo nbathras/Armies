@@ -8,6 +8,8 @@ public class MainMenu : MonoBehaviour
 
     public GameObject instructionMenu;
     public GameObject backButton;
+    public GameObject instructionTitle;
+    public GameObject instructionOverlay;
 
     public void StartLevel1() {
         Debug.Log("Start Scene 1");
@@ -33,6 +35,8 @@ public class MainMenu : MonoBehaviour
 
         instructionMenu.SetActive(true);
         backButton.SetActive(true);
+        instructionTitle.SetActive(true);
+        instructionOverlay.SetActive(true);
     }
 
     public void DisplayMainMenu() {
@@ -41,6 +45,8 @@ public class MainMenu : MonoBehaviour
 
         instructionMenu.SetActive(false);
         backButton.SetActive(false);
+        instructionTitle.SetActive(false);
+        instructionOverlay.SetActive(false);
     }
 
     public void QuitGame() {
