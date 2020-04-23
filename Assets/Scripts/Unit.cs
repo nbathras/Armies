@@ -31,12 +31,6 @@ public class Unit : MonoBehaviour
     private Building origin;
     private Building target;
 
-    // The max amount of troops leaving from the players' garrisons in a single click
-    private static int maxTroopBlockSize;
-
-    // The player's team
-    private static Team.TeamName playerTeamName;
-
     private void Awake() {
         // Get NavMeshAgent Component
         agent = GetComponent<NavMeshAgent>();
@@ -73,11 +67,6 @@ public class Unit : MonoBehaviour
     public Building GetTarget()
     {
         return target;
-    }
-
-    public int getMaxTroopBlockSize()
-    {
-        return maxTroopBlockSize;
     }
 
 
@@ -130,18 +119,6 @@ public class Unit : MonoBehaviour
             gameObject.GetComponentInChildren<Renderer>().material.color = color;
         }
         */
-    }
-    
-    // Sets the player's max troop block size
-    public static void setMaxTroopBlockSize(int blockSize)
-    {
-        maxTroopBlockSize = blockSize;
-    }
-
-    // Sets the player's team
-    public static void setPlayerTeam(Team.TeamName team)
-    {
-        playerTeamName = team;
     }
 
 

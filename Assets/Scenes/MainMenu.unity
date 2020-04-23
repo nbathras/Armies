@@ -2213,8 +2213,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '<color=red>You control the Red team.</color>
 
-    <color=blue>The AI controls
-    the Blue team.</color>
+    The AI controls the
+    other teams.
 
 
     <#ffe100>Left click to select a building.</color>
