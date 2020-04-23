@@ -19,6 +19,10 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI foodResourceText;
 
+    // Handles troop size control
+    [SerializeField]
+    private GameObject unitPrefab;
+
     private void Awake() {
         backgroundCanvas.SetActive(false);
         loseText.SetActive(false);
