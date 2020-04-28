@@ -47,11 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uIController: {fileID: 0}
   buildingContainer: {fileID: 0}
-  buildingList: []
   unitContainer: {fileID: 0}
-  unitList: []
   playerControlledTeam: 1
-  activeTeams: 
   isGamePaused: 0
 --- !u!114 &5425382592776569334
 MonoBehaviour:
@@ -81,4 +78,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitPrefab: {fileID: 8923766808711290304, guid: 66b46bdbe79e25041915aad955196a20,
+    type: 3}
+  dustParticlePrefab: {fileID: 1151497644004758220, guid: 36563dd96d98b504980b48ad87f0ee72,
     type: 3}

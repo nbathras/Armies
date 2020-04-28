@@ -8,10 +8,18 @@ public class Blueprints : MonoBehaviour
 
     [SerializeField]
     private GameObject unitPrefab;
+    [SerializeField]
+    private GameObject dustParticlePrefab;
 
-    public static GameObject unitStaticPrefab {
+    public static GameObject UnitStaticPrefab {
         get {
             return instance.unitPrefab;
+        }
+    }
+
+    public static GameObject DustParticleStaticPrefab {
+        get {
+            return instance.dustParticlePrefab;
         }
     }
 

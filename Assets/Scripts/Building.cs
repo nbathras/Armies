@@ -188,32 +188,35 @@ public abstract class Building : MonoBehaviour
     }
 
 
-
+    private GameObject dustParticle;
     /* Other methods */
     public bool AttemptUpgrade() {
         if (GetBuildingLevel() < buildingModelStages.Length && // check for max level 
             GameManager.instance.GetTeam(teamName).GetGold() >= GetBuildingLevel() * 100)
         {
-            GameManager.instance.GetTeam(teamName).SetGold(GameManager.instance.GetTeam(teamName).GetGold() - GetBuildingLevel() * 100);
-
-            SetBuildingLevel(GetBuildingLevel() + 1);
+            StartCoroutine(UpgradeBuilding());
 
             return true;
         }
 
         return false;
+    }
 
-        /*
-        if (GetArmySize() >= MaxGarrisonSize / 2 && GetBuildingLevel() < buildingModelStages.Length) {
-            SetArmySize(GetArmySize() - MaxGarrisonSize / 2);
-
-            SetBuildingLevel(GetBuildingLevel() + 1);
-
-            return true;
+    private IEnumerator UpgradeBuilding() {
+        if (dustParticle == null) {
+            dustParticle = Instantiate(Blueprints.DustParticleStaticPrefab);
+            dustParticle.transform.position = transform.position;
         }
+        dustParticle.SetActive(true);
 
-        return false;
-        */
+        yield return new WaitForSeconds(.5f);
+
+        GameManager.instance.GetTeam(teamName).SetGold(GameManager.instance.GetTeam(teamName).GetGold() - GetBuildingLevel() * 100);
+        SetBuildingLevel(GetBuildingLevel() + 1);
+
+        yield return new WaitForSeconds(.5f);
+
+        dustParticle.SetActive(false);
     }
 
     private bool AttemptAttackOnBuilding(Unit attacker)

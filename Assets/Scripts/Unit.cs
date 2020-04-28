@@ -136,7 +136,7 @@ public class Unit : MonoBehaviour
         Vector3 headingScaled = (spawnRadius / heading.magnitude) * heading;
         Vector3 unitPosition = inOrigin.transform.position - headingScaled;
 
-        Unit unitComponent = Instantiate(Blueprints.unitStaticPrefab, unitPosition, Quaternion.identity).GetComponent<Unit>();
+        Unit unitComponent = Instantiate(Blueprints.UnitStaticPrefab, unitPosition, Quaternion.identity).GetComponent<Unit>();
         unitComponent.transform.SetParent(GameManager.instance.unitContainer.transform);
         unitComponent.transform.LookAt(inTarget.transform);
         unitComponent.origin = inOrigin;
