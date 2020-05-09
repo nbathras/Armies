@@ -200,6 +200,7 @@ public abstract class Building : MonoBehaviour
             foreach (Material m in teamMaterialList) {
                 m.color = color;
             }
+            armySizeText.color = color;
 
             /*
             for(int i = 0; i < buildingModelStages.Length; i++)
