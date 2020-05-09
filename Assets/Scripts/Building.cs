@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -10,7 +11,6 @@ public abstract class Building : MonoBehaviour
 
     protected abstract int StartingMaxGarrisonSize { get; }
     protected abstract int StartingTroopGenerationRate { get; }
-    protected abstract int StartingFoodGenerationRate { get; }
     protected abstract int StartingGoldGenerationRate { get; }
 
     public int MaxGarrisonSize
@@ -28,13 +28,7 @@ public abstract class Building : MonoBehaviour
             return GetBuildingLevel() * StartingTroopGenerationRate;
         }
     }
-    public int FoodGenerationRate
-    {
-        get
-        {
-            return GetBuildingLevel() * StartingFoodGenerationRate;
-        }
-    }
+
     public int GoldGenerationRate
     {
         get
@@ -61,10 +55,37 @@ public abstract class Building : MonoBehaviour
     [SerializeField]
     private GameObject selectionCircle;
 
+    [SerializeField]
+    private List<string> teamSharedMaterialList;
+    private List<Material> teamMaterialList;
+
     /* Unity Methods */
     private void Start() {
         // Unpauses building
         isPaused = false;
+
+        /*
+        teamMaterialList = new List<Material>();
+        for (int i = 0; i < buildingModelStages.Length; i++) {
+            foreach (MeshRenderer mr in buildingModelStages[i].GetComponentsInChildren<MeshRenderer>()) {
+                foreach (Material m in mr.materials) {
+                    if (m.name == "Flag (Instance)") {
+                        teamMaterialList.Add(m);
+                    }
+                }
+            }
+        }
+        */
+        teamMaterialList = new List<Material>();
+        foreach(MeshRenderer mr in gameObject.GetComponentsInChildren<MeshRenderer>()) {
+            foreach(Material m in mr.materials) {
+                // Debug.Log("test1: " + m.name);
+                if (teamSharedMaterialList.Contains(m.name.Replace(" (Instance)", ""))) {
+                    Debug.Log("test");
+                    teamMaterialList.Add(m);
+                }
+            }
+        }
 
         // Remove selection circle
         selectionCircle.SetActive(false);
@@ -95,7 +116,6 @@ public abstract class Building : MonoBehaviour
                     {
                         SetArmySize(armySize + TroopGenerationRate);
                     }
-                    buildingTeam.SetFood(buildingTeam.GetFood() + FoodGenerationRate);
                     buildingTeam.SetGold(buildingTeam.GetGold() + GoldGenerationRate);
                 }
             }
@@ -177,6 +197,11 @@ public abstract class Building : MonoBehaviour
 
         void SetRendererColor(Color color)
         {
+            foreach (Material m in teamMaterialList) {
+                m.color = color;
+            }
+
+            /*
             for(int i = 0; i < buildingModelStages.Length; i++)
             {
                 foreach (Renderer renderer in buildingModelStages[i].GetComponentsInChildren<Renderer>())
@@ -184,6 +209,7 @@ public abstract class Building : MonoBehaviour
                     renderer.material.color = color;
                 }
             }
+            */
         }
     }
 

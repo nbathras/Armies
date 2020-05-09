@@ -20,7 +20,6 @@ public class AIController
             yield return new WaitForSeconds(aIDecisionSpeed);
 
             int currentGold = GameManager.instance.GetTeam(teamName).GetGold();
-            int currentFood = GameManager.instance.GetTeam(teamName).GetFood();
 
             List<Building> enemyBuildings = new List<Building>();
             List<Building> friendlyBuildings = new List<Building>();

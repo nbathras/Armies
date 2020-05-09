@@ -14,12 +14,10 @@ public class Team
     private readonly TeamName teamName;
     public AIController aIController;
 
-    private int food;
     private int gold;
 
     public Team(TeamName inTeamName, bool isPlayerControlled)
     {
-        SetFood(100);
         SetGold(100);
 
         teamName = inTeamName;
@@ -30,11 +28,6 @@ public class Team
     }
 
     /* Getters */
-    public int GetFood()
-    {
-        return food;
-    }
-
     public int GetGold()
     {
         return gold;
@@ -43,16 +36,6 @@ public class Team
     public TeamName GetTeamOption()
     {
         return teamName;
-    }
-
-    /* Setters */
-    public void SetFood(int inFood)
-    {
-        food = inFood;
-        if (aIController == null)
-        {
-            GameManager.instance.uIController.SetFoodResourceText(food);
-        }
     }
 
     public void SetGold(int inGold)
