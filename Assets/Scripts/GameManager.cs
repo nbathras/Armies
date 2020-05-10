@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -17,7 +18,7 @@ public class GameManager : MonoBehaviour
     public GameObject unitContainer;
 
     // Gamestate structures
-    private Building[] buildingList;
+    private List<Building> buildingList;
     private Unit[] unitList;
     public Dictionary<Team.TeamName, Team> teamDictionary;
     public Dictionary<Team.TeamName, int> buildingCountDictionary;
@@ -60,7 +61,7 @@ public class GameManager : MonoBehaviour
     /* Generation Commands */
     private void GenerateBuildingList()
     {
-        buildingList = buildingContainer.gameObject.GetComponentsInChildren<Building>();
+        buildingList = buildingContainer.gameObject.GetComponentsInChildren<Building>().ToList();
     }
 
     private void GenerateUnitList()
@@ -117,7 +118,7 @@ public class GameManager : MonoBehaviour
         return teamDictionary[teamOption];
     }
 
-    public Building[] GetBuildingsList()
+    public List<Building> GetBuildingsList()
     {
         return buildingList;
     }

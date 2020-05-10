@@ -7,7 +7,9 @@ public class AIController
     // public GameManager.Team team = GameManager.Team.Blue;
     public Team.TeamName teamName;
     public bool isAIActive = true;
-    public float aIDecisionSpeed = 1f;
+    public float timeBetweenActions = 3f;
+    public float reactionSpeed = 1f;
+    public int stringAbleBuildings = 3;
 
     public AIController(Team.TeamName inTeamName)
     {
@@ -17,99 +19,115 @@ public class AIController
 
     private IEnumerator AICoroutine() {
         while(isAIActive) {
-            yield return new WaitForSeconds(aIDecisionSpeed);
+            yield return new WaitForSeconds(reactionSpeed);
 
-            int currentGold = GameManager.instance.GetTeam(teamName).GetGold();
+            (int currentGold, List<Building> enemyBuildings, List<Building> friendlyBuildings) = GenerateInformation();
 
-            List<Building> enemyBuildings = new List<Building>();
-            List<Building> friendlyBuildings = new List<Building>();
-            Dictionary<Team.TeamName, int> troopCount = new Dictionary<Team.TeamName, int>();
-
-            foreach (Building building in GameManager.instance.GetBuildingsList()) {
-                if (building.GetTeamName() == teamName) {
-                    friendlyBuildings.Add(building);
-                } else {
-                    enemyBuildings.Add(building);
+            bool isActionMade = false;
+            int random = Random.Range(0, 100);
+            if (random > 50) {
+                if(!Attack(friendlyBuildings, enemyBuildings, currentGold)) {
+                    isActionMade = Upgrade(friendlyBuildings, enemyBuildings, currentGold);
                 }
-
-                if (!troopCount.ContainsKey(building.GetTeamName()))
-                {
-                    troopCount[building.GetTeamName()] = 0;
-                }
-                troopCount[building.GetTeamName()] += building.GetArmySize();
-            }
-
-            enemyBuildings.Sort(SortByTroopNumber);
-            friendlyBuildings = Shuffle(friendlyBuildings);
-
-            if (currentGold < 300)
-            {
-                Attack(friendlyBuildings, enemyBuildings, typeof(Mine));
             } else {
-                Attack(friendlyBuildings, enemyBuildings, typeof(Building));
-            }
-
-            Upgrade(friendlyBuildings);
-
-
-            /*
-            if (enemyBuildings.Count > 0 && friendlyBuildings.Count > 0) {
-                int choice = Random.Range(0, 2);
-
-                if (choice == 0) {
-                    AttemptJointAttack(friendlyBuildings, enemyBuildings);
-                } else {
-                    AttemptJointUpgrade(friendlyBuildings);
+                if (!Upgrade(friendlyBuildings, enemyBuildings, currentGold)) {
+                    isActionMade = Attack(friendlyBuildings, enemyBuildings, currentGold);
                 }
             }
-            */
+
+            if (isActionMade) {
+                yield return new WaitForSeconds(timeBetweenActions);
+            } else {
+                yield return new WaitForSeconds(reactionSpeed);
+            }
         }
     }
 
-    private void Attack(List<Building> friendlyBuildings, List<Building> enemyBuildings, System.Type targetPreference) {
+    private (int, List<Building>, List<Building>) GenerateInformation() {
+        int currentGold = GameManager.instance.GetTeam(teamName).GetGold();
+
+        List<Building> enemyBuildings = new List<Building>();
+        List<Building> friendlyBuildings = new List<Building>();
+
+        foreach (Building building in GameManager.instance.GetBuildingsList()) {
+            if (building.GetTeamName() == teamName) {
+                friendlyBuildings.Add(building);
+            } else {
+                enemyBuildings.Add(building);
+            }
+        }
+
+        enemyBuildings.Sort(SortByTroopNumber);
+        friendlyBuildings.Sort(SortByTroopNumber);
+
+        return (currentGold, enemyBuildings, friendlyBuildings);
+    }
+
+    /* Action */
+    private bool Attack(List<Building> friendlyBuildings, List<Building> enemyBuildings, int currentGold) {
+        // No Buildings to attack
         if (enemyBuildings.Count < 1)
         {
-            return;
+            return false;
+        }
+
+        // Max clicks 
+        int musterableArmy = 0;
+        for(int i = 0; i < friendlyBuildings.Count && i < stringAbleBuildings; i++) { 
+            musterableArmy += (int) (friendlyBuildings[i].GetArmySize() / 2);
         }
 
         Building target = null;
-        for (int i = enemyBuildings.Count - 1; i >= 0; i--)
-        {
-            if (enemyBuildings[i].GetType() == targetPreference)
-            {
-                target = enemyBuildings[i];
-                break;
+        for (int i = enemyBuildings.Count - 1; i >= 0; i--) {
+            // If team has less than 200 goal attempt to target a mine
+            if (currentGold < 100) {
+                if (enemyBuildings[i].GetType() == typeof(Mine)) {
+                    target = enemyBuildings[i];
+                } else if(i == 0) {
+                    target = enemyBuildings[enemyBuildings.Count - 1];
+                }
+            } else {
+                if (enemyBuildings[i].GetType() == typeof(Castle)) {
+                    target = enemyBuildings[i];
+                } else if (i == 0) {
+                    target = enemyBuildings[enemyBuildings.Count - 1];
+                }
             }
         }
 
-        if (target == null)
-        {
-            target = enemyBuildings[enemyBuildings.Count - 1];
-        }
+        bool isAttackSent = false;
+        float winPercentageDifference = 1.2f;
+        int targetArmySize = (int) (target.GetArmySize() * winPercentageDifference);
+        if (musterableArmy > targetArmySize) {
+            int attackForce = 0;
 
-        int targetForce = target.GetArmySize();
+            foreach (Building b in friendlyBuildings) {
+                attackForce += (int)(b.GetArmySize() / 2);
+                Unit.ConstructUnit(b, target);
+                isAttackSent = true;
+                if (attackForce > musterableArmy) {
+                    break;
+                }
+            }
+        } else if (friendlyBuildings.Count > 1) {
+            // Reinforceing
 
-        int attackForceSize = 0;
-        List<Building> attackForce = new List<Building>();
-        foreach (Building building in friendlyBuildings) {
-            attackForceSize += building.GetArmySize() / 2;
-            attackForce.Add(building);
-            if (attackForceSize > targetForce + 5) {
-                break;
+
+            // Stack troops
+            Building stackTarget = friendlyBuildings[0];
+            for (int i = 1; i < friendlyBuildings.Count && i < stringAbleBuildings; i++) {
+                if (friendlyBuildings[i].GetArmySize() >= friendlyBuildings[i].MaxGarrisonSize) {
+                    Unit.ConstructUnit(friendlyBuildings[i], stackTarget);
+                    isAttackSent = true;
+                }
             }
         }
 
-        if (attackForceSize > targetForce + 5) {
-            foreach (Building building in attackForce) {
-                Unit.ConstructUnit(building, enemyBuildings[enemyBuildings.Count - 1]);
-            }
-        }
+        return isAttackSent;
     }
 
-    private void Upgrade(List<Building> friendlyBuildings)
+    private bool Upgrade(List<Building> friendlyBuildings, List<Building> enemyBuildings, int currentGold)
     {
-        int currentGold = GameManager.instance.GetTeam(teamName).GetGold();
-
         foreach (Building building in friendlyBuildings)
         {
             int buildingUpgradeCost = building.GetBuildingLevel() * 100;
@@ -118,10 +136,14 @@ public class AIController
             {
                 currentGold -= buildingUpgradeCost;
                 building.AttemptUpgrade();
+                return true;
             }
         }
+
+        return false;
     }
 
+    /* Utility functions */
     public static int SortByTroopNumber(Building b1, Building b2)
     {
         return -b1.GetArmySize().CompareTo(b2.GetArmySize());

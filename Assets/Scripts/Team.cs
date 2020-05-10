@@ -18,7 +18,7 @@ public class Team
 
     public Team(TeamName inTeamName, bool isPlayerControlled)
     {
-        SetGold(100);
+        SetGold(50);
 
         teamName = inTeamName;
         if (!isPlayerControlled)
