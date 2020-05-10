@@ -2123,7 +2123,7 @@ PrefabInstance:
     - target: {fileID: 3755803173098661761, guid: 0bef77ae8f952b34d8786253c3ac9e28,
         type: 3}
       propertyPath: m_Name
-      value: UIOverlay_Updated
+      value: UIOverlay
       objectReference: {fileID: 0}
     - target: {fileID: 3755803173098661771, guid: 0bef77ae8f952b34d8786253c3ac9e28,
         type: 3}
