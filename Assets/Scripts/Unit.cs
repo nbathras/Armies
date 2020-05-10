@@ -69,6 +69,17 @@ public class Unit : MonoBehaviour
         return target;
     }
 
+    public static int GetTroopsDeployedNum(Building inOrigin)
+    {
+        float percentage = 0.5f;
+        // If the building is player-owned, then the troop percentage is set to whichever button is currently toggled
+        if (inOrigin.GetTeamName() == GameManager.instance.playerControlledTeam)
+        {
+            percentage = GameManager.instance.GetTroopPercentage();
+        }
+        return (int)(inOrigin.GetArmySize() * percentage);
+    }
+
 
     /* Setters */
     public void SetArmySize(int inArmySize)
@@ -143,7 +154,7 @@ public class Unit : MonoBehaviour
         unitComponent.target = inTarget;
         unitComponent.SetTeam(inOrigin.GetTeamName());
 
-        int numberOfDeployedTroops = (int) (inOrigin.GetArmySize() / 2);
+        int numberOfDeployedTroops = GetTroopsDeployedNum(inOrigin);
         inOrigin.SetArmySize(inOrigin.GetArmySize() - numberOfDeployedTroops);
         unitComponent.SetArmySize(numberOfDeployedTroops);
 

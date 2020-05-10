@@ -122,6 +122,10 @@ public class GameManager : MonoBehaviour
         return buildingList;
     }
 
+    public float GetTroopPercentage()
+    {
+        return uIController.GetTroopPercentage();
+    }
 
 
     /* Game Actions */
