@@ -1,20 +1,11 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
-using static GameManager;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class Unit : MonoBehaviour
 {
-    [SerializeField]
-    private Material redMaterial;
-    [SerializeField]
-    private Material yellowMaterial;
-    [SerializeField]
-    private Material greenMaterial;
-    [SerializeField]
-    private Material blueMaterial;
-
     [SerializeField]
     private int armySize;
     [SerializeField]
@@ -27,7 +18,7 @@ public class Unit : MonoBehaviour
     // Script Set Game Objects
     private NavMeshAgent agent;
     private Animator animator;
-    private Team.TeamName teamName;
+    private Team team;
     private Building origin;
     private Building target;
 
@@ -54,9 +45,9 @@ public class Unit : MonoBehaviour
         return armySize;
     }
 
-    public Team.TeamName GetTeamName()
+    public Team GetTeam()
     {
-        return teamName;
+        return team;
     }
 
     public Building GetOrigin()
@@ -73,12 +64,13 @@ public class Unit : MonoBehaviour
     {
         float percentage = 0.5f;
         // If the building is player-owned, then the troop percentage is set to whichever button is currently toggled
-        if (inOrigin.GetTeamName() == GameManager.instance.playerControlledTeam)
+        if (inOrigin.GetTeam().Equals(GameManager.instance.GetPlayerControlledTeam()))
         {
             percentage = GameManager.instance.GetTroopPercentage();
         }
         return (int)(inOrigin.GetArmySize() * percentage);
     }
+
 
 
     /* Setters */
@@ -88,56 +80,45 @@ public class Unit : MonoBehaviour
         armySizeText.SetText(GetArmySize().ToString());
     }
 
-    public void SetTeam(Team.TeamName inTeam)
+    public void SetTeam(Team inTeam)
     {
-        teamName = inTeam;
+        team = inTeam;
 
-        if (teamName== Team.TeamName.Netural)
-        {
-            // SetRendererColor(Color.gray);
-        }
-        else
-        {
-            if (teamName == Team.TeamName.Red)
-            {
-                // SetRendererColor(Color.red);
-                gameObject.GetComponentInChildren<Renderer>().material = redMaterial;
-                armySizeText.color = Color.red;
-            }
-            if (teamName == Team.TeamName.Blue)
-            {
-                // SetRendererColor(Color.blue);
-                gameObject.GetComponentInChildren<Renderer>().material = blueMaterial;
-                armySizeText.color = Color.blue;
-            }
-            if (teamName == Team.TeamName.Green)
-            {
-                // SetRendererColor(Color.green);
-                gameObject.GetComponentInChildren<Renderer>().material = greenMaterial;
-                armySizeText.color = Color.green;
-            }
-            if (teamName == Team.TeamName.Yellow)
-            {
-                // SetRendererColor(Color.yellow);
-                gameObject.GetComponentInChildren<Renderer>().material = yellowMaterial;
-                armySizeText.color = Color.yellow;
-            }
+        switch (team.GetColor()) {
+            case Team.Colors.Netural:
+                throw new Exception("Custom Error: Netural Units cannot be created");
+            case Team.Colors.Red:
+                SetRendererColor(Color.red, Blueprints.RedStaticMaterial);
+                break;
+            case Team.Colors.Blue:
+                SetRendererColor(Color.blue, Blueprints.BlueStaticMaterial);
+                break;
+            case Team.Colors.Green:
+                SetRendererColor(Color.green, Blueprints.GreenStaticMaterial);
+                break;
+            case Team.Colors.Yellow:
+                SetRendererColor(Color.yellow, Blueprints.YellowStaticMaterial);
+                break;
         }
 
-        /*
-        void SetRendererColor(Color color)
-        {
-            gameObject.GetComponentInChildren<Renderer>().material.color = color;
+        void SetRendererColor(Color c, Material m) {
+            gameObject.GetComponentInChildren<Renderer>().material = m;
+            armySizeText.color = c;
         }
-        */
     }
 
 
+
     /* Other methods */
-    public void StopUnit()
+    public void Pause()
     {
+        // ToDo: Store old velocity and set it in the UnPause method
         agent.velocity = new Vector3(0f, 0f, 0f);
         agent.isStopped = true;
+    }
+
+    public void UnPause() {
+        agent.isStopped = false;
     }
 
     public static float spawnRadius = .5f;
@@ -148,11 +129,11 @@ public class Unit : MonoBehaviour
         Vector3 unitPosition = inOrigin.transform.position - headingScaled;
 
         Unit unitComponent = Instantiate(Blueprints.UnitStaticPrefab, unitPosition, Quaternion.identity).GetComponent<Unit>();
-        unitComponent.transform.SetParent(GameManager.instance.unitContainer.transform);
+        unitComponent.transform.SetParent(GameManager.instance.GetUnitContainer());
         unitComponent.transform.LookAt(inTarget.transform);
         unitComponent.origin = inOrigin;
         unitComponent.target = inTarget;
-        unitComponent.SetTeam(inOrigin.GetTeamName());
+        unitComponent.SetTeam(inOrigin.GetTeam());
 
         int numberOfDeployedTroops = GetTroopsDeployedNum(inOrigin);
         inOrigin.SetArmySize(inOrigin.GetArmySize() - numberOfDeployedTroops);

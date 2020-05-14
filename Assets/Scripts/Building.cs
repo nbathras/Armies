@@ -42,10 +42,12 @@ public abstract class Building : MonoBehaviour
     [SerializeField]
     private int armySize = 40;
     [SerializeField]
-    private Team.TeamName teamName = Team.TeamName.Netural;
+    private Team team;
     // Controls selectability, troop generation, attack and defense
-    [SerializeField]
-    private bool isPaused = false;
+
+    // ToDo: Allow for individual buildings to be paused?
+    // [SerializeField]
+    // private bool isPaused = false;
 
     // Inspector Set Game Objects
     [SerializeField]
@@ -54,6 +56,8 @@ public abstract class Building : MonoBehaviour
     private TextMeshPro armySizeText;
     [SerializeField]
     private GameObject selectionCircle;
+    [SerializeField]
+    private GameObject dustParticle;
 
     [SerializeField]
     private List<string> teamSharedMaterialList;
@@ -61,9 +65,6 @@ public abstract class Building : MonoBehaviour
 
     /* Unity Methods */
     private void Start() {
-        // Unpauses building
-        isPaused = false;
-
         teamMaterialList = new List<Material>();
         foreach(MeshRenderer mr in gameObject.GetComponentsInChildren<MeshRenderer>()) {
             foreach(Material m in mr.materials) {
@@ -83,26 +84,33 @@ public abstract class Building : MonoBehaviour
         SetBuildingLevel(buildingLevel);
 
         // Sets the intial team
-        SetTeam(teamName);
+        SetTeam(team);
 
         // Start troop generation
         StartCoroutine(GenerateUnitsCoroutine());
 
         IEnumerator GenerateUnitsCoroutine()
         {
-            while (!isPaused)
+            while (true)
             {
                 yield return new WaitForSeconds(1f);
 
-                if (!isPaused && teamName != Team.TeamName.Netural)
+                // only generate troops if game is unpaused and the building is not neutral
+                if (!GameManager.instance.IsGamePaused() && !team.IsNeutral())
                 {
-                    Team buildingTeam = GameManager.instance.GetTeam(teamName);
-
+                    // Do not add anymore troops if at max garrison, but do not remove troops
                     if (GetArmySize() < MaxGarrisonSize)
                     {
-                        SetArmySize(armySize + TroopGenerationRate);
+                        // only generate up to the max garrison
+                        int newArmySize = armySize + TroopGenerationRate;
+                        if (newArmySize > MaxGarrisonSize) {
+                            SetArmySize(MaxGarrisonSize);
+                        } else {
+                            SetArmySize(newArmySize);
+                        }
                     }
-                    buildingTeam.SetGold(buildingTeam.GetGold() + GoldGenerationRate);
+
+                    team.SetGold(team.GetGold() + GoldGenerationRate);
                 }
             }
         }
@@ -129,9 +137,9 @@ public abstract class Building : MonoBehaviour
         return buildingLevel;
     }
 
-    public Team.TeamName GetTeamName()
+    public Team GetTeam()
     {
-        return teamName;
+        return team;
     }
 
 
@@ -153,32 +161,26 @@ public abstract class Building : MonoBehaviour
         }
     }
 
-    public void SetTeam(Team.TeamName inTeam)
+    public void SetTeam(Team inTeam)
     {
-        teamName = inTeam;
+        team = inTeam;
 
-        if (teamName == Team.TeamName.Netural)
-        {
-            SetRendererColor(Color.gray);
-        }
-        else
-        {
-            if (teamName == Team.TeamName.Red)
-            {
+        switch(team.GetColor()) {
+            case Team.Colors.Netural:
+                SetRendererColor(Color.gray);
+                break;
+            case Team.Colors.Red:
                 SetRendererColor(Color.red);
-            }
-            if (teamName == Team.TeamName.Blue)
-            {
+                break;
+            case Team.Colors.Blue:
                 SetRendererColor(Color.blue);
-            }
-            if (teamName == Team.TeamName.Green)
-            {
+                break;
+            case Team.Colors.Green:
                 SetRendererColor(Color.green);
-            }
-            if (teamName == Team.TeamName.Yellow)
-            {
+                break;
+            case Team.Colors.Yellow:
                 SetRendererColor(Color.yellow);
-            }
+                break;
         }
 
         void SetRendererColor(Color color)
@@ -187,49 +189,36 @@ public abstract class Building : MonoBehaviour
                 m.color = color;
             }
             armySizeText.color = color;
-
-            /*
-            for(int i = 0; i < buildingModelStages.Length; i++)
-            {
-                foreach (Renderer renderer in buildingModelStages[i].GetComponentsInChildren<Renderer>())
-                {
-                    renderer.material.color = color;
-                }
-            }
-            */
         }
     }
 
-
-    private GameObject dustParticle;
     /* Other methods */
-    public bool AttemptUpgrade() {
+    public bool Upgrade() {
+        int upgradeCost = 100 + (buildingLevel - 1) * 50;
+
         if (GetBuildingLevel() < buildingModelStages.Length && // check for max level 
-            GameManager.instance.GetTeam(teamName).GetGold() >= GetBuildingLevel() * 100)
+            team.GetGold() >= upgradeCost)
         {
-            StartCoroutine(UpgradeBuilding());
+            StartCoroutine(UpgradeCoroutine(upgradeCost));
 
             return true;
         }
 
         return false;
-    }
 
-    private IEnumerator UpgradeBuilding() {
-        if (dustParticle == null) {
-            dustParticle = Instantiate(Blueprints.DustParticleStaticPrefab);
-            dustParticle.transform.position = transform.position;
+        IEnumerator UpgradeCoroutine(int cost) {
+            dustParticle.SetActive(true);
+
+            team.SetGold(team.GetGold() - cost);
+
+            yield return new WaitForSeconds(.5f);
+
+            SetBuildingLevel(buildingLevel + 1);
+
+            yield return new WaitForSeconds(.5f);
+
+            dustParticle.SetActive(false);
         }
-        dustParticle.SetActive(true);
-
-        yield return new WaitForSeconds(.5f);
-
-        GameManager.instance.GetTeam(teamName).SetGold(GameManager.instance.GetTeam(teamName).GetGold() - GetBuildingLevel() * 100);
-        SetBuildingLevel(GetBuildingLevel() + 1);
-
-        yield return new WaitForSeconds(.5f);
-
-        dustParticle.SetActive(false);
     }
 
     private bool AttemptAttackOnBuilding(Unit attacker)
@@ -239,7 +228,7 @@ public abstract class Building : MonoBehaviour
         {
             int newArmySize;
             // Army Transfer
-            if (attacker.GetTeamName().Equals(teamName))
+            if (attacker.GetTeam().Equals(team))
             {
                 newArmySize = attacker.GetArmySize() + GetArmySize();
             }
@@ -249,7 +238,7 @@ public abstract class Building : MonoBehaviour
                 newArmySize = GetArmySize() - attacker.GetArmySize();
                 if (newArmySize < 0)
                 {
-                    SetTeam(attacker.GetTeamName());
+                    SetTeam(attacker.GetTeam());
                     newArmySize *= -1;
 
                     if (GetBuildingLevel() > 1)
@@ -277,16 +266,10 @@ public abstract class Building : MonoBehaviour
 
     public void DeSelect() {
         selectionCircle.SetActive(false);
-        SetTeam(teamName);
+        // SetTeam(teamName);
     }
 
-    public void Pause()
-    {
-        isPaused = true;
-    }
+    public void Pause() { }
 
-    public void UnPause()
-    {
-        isPaused = false;
-    }
+    public void UnPause() { }
 }

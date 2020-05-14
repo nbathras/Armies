@@ -14,18 +14,25 @@ public class GameManager : MonoBehaviour
     public UIController uIController;
 
     // Containers to organize similar objects
-    public GameObject buildingContainer;
-    public GameObject unitContainer;
+    [SerializeField]
+    private GameObject buildingContainer;
+    [SerializeField]
+    private GameObject unitContainer;
+    [SerializeField]
+    private GameObject teamContainer;
 
+    // ToDo change structure so it is Dictionary<Team, (buidlingListForTeamX, unitListForTeamX)>
     // Gamestate structures
     private List<Building> buildingList;
-    private Unit[] unitList;
-    public Dictionary<Team.TeamName, Team> teamDictionary;
-    public Dictionary<Team.TeamName, int> buildingCountDictionary;
+    private List<Unit> unitList;
+    private List<Team> teamList;
+    // public Dictionary<Team.TeamName, Team> teamDictionary;
+    // public Dictionary<Team.TeamName, int> buildingCountDictionary;
 
     // Game Parameters
-    public Team.TeamName playerControlledTeam = Team.TeamName.Red;
-    public bool isGamePaused = false;
+    [SerializeField]
+    private Team playerControlledTeam;
+    private bool isGamePaused = false;
 
     /* Unity Functions */
     private void Awake() {
@@ -34,24 +41,33 @@ public class GameManager : MonoBehaviour
         }
 
         GenerateBuildingList();
-        GenerateTeams();
+        GenerateUnitList();     // will almost always be empty
+        GenerateTeamList();     
     }
 
     private void Update()
     {
         if (!isGamePaused)
         {
+            // GenerateBuildingList(); // unneccesary to run because buildings do not change after first initialization
             GenerateUnitList();
-            GenerateBuildingCount();
+            // GenerateTeamList(); // unncessary to run because teams do not change after first initialization
 
-            if (buildingCountDictionary.Keys.Count < 2)
-            {
-                StartCoroutine(GameOver(buildingCountDictionary.ContainsKey(playerControlledTeam)));
+            if (GetNumberRemainingTeams() < 2) {
+                GameOver();
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                StartCoroutine(ExitGame());
+                ExitGame();
+            }
+
+            if (Input.GetKeyUp(KeyCode.Space)) {
+                if (isGamePaused) {
+                    PauseGame();
+                } else {
+                    UnPauseGame();
+                }
             }
         }
     }
@@ -61,61 +77,47 @@ public class GameManager : MonoBehaviour
     /* Generation Commands */
     private void GenerateBuildingList()
     {
+        if (buildingContainer == null) {
+            throw new Exception("Custom Error: Building Container does not exist in the scene");
+        }
+
         buildingList = buildingContainer.gameObject.GetComponentsInChildren<Building>().ToList();
     }
 
     private void GenerateUnitList()
     {
-        unitList = unitContainer.gameObject.GetComponentsInChildren<Unit>();
+        if (unitContainer == null) {
+            throw new Exception("Custom Error: Unit Container does not exist in the scene");
+        }
+
+        unitList = unitContainer.gameObject.GetComponentsInChildren<Unit>().ToList();
     }
 
-    private void GenerateTeams()
+    private void GenerateTeamList()
     {
-        if (buildingList == null)
+        if (teamContainer == null)
         {
-            throw new Exception("Custom Error: Cannot generate teams with null buidling list");
+            throw new Exception("Custom Error: Team Container does not exist in the scene");
         }
 
-        teamDictionary = new Dictionary<Team.TeamName, Team>();
-        foreach (Building building in buildingList)
-        {
-            Team.TeamName buildingTeam = building.GetTeamName();
-
-            if (!teamDictionary.ContainsKey(buildingTeam) && buildingTeam != Team.TeamName.Netural)
-            {
-                teamDictionary[buildingTeam] = new Team(
-                    buildingTeam,
-                    buildingTeam == playerControlledTeam
-                );
-            }
-        }
+        teamList = teamContainer.gameObject.GetComponentsInChildren<Team>().ToList();
     }
-
-    private void GenerateBuildingCount()
-    {
-        buildingCountDictionary = new Dictionary<Team.TeamName, int>();
-        foreach (Building building in buildingList)
-        {
-            Team.TeamName buildingTeam = building.GetTeamName();
-            if (buildingTeam == Team.TeamName.Netural)
-            {
-                continue;
-            }
-
-            if (!buildingCountDictionary.ContainsKey(buildingTeam))
-            {
-                buildingCountDictionary[buildingTeam] = 0;
-            }
-            buildingCountDictionary[buildingTeam] += 1;
-        }
-    }
-
 
 
     /* Getters */
-    public Team GetTeam(Team.TeamName teamOption)
-    {
-        return teamDictionary[teamOption];
+    public int GetNumberRemainingTeams() {
+        int numberRemainingTeams = 0;
+        foreach (Team team in teamList) {
+            if (team.IsNeutral()) {
+                continue;
+            }
+
+            if (team.HasBuildings()) {
+                numberRemainingTeams += 1;
+            }
+        }
+
+        return numberRemainingTeams;
     }
 
     public List<Building> GetBuildingsList()
@@ -128,15 +130,25 @@ public class GameManager : MonoBehaviour
         return uIController.GetTroopPercentage();
     }
 
+    public bool IsGamePaused() {
+        return isGamePaused;
+    }
+
+    public Transform GetUnitContainer() {
+        return unitContainer.transform;
+    }
+
+    public Team GetPlayerControlledTeam() {
+        return playerControlledTeam;
+    }
 
     /* Game Actions */
     private void PauseGame() {
         if (!isGamePaused) {
             isGamePaused = true;
-            // aIController.isAIActive = false;
 
             foreach (Unit unit in unitList) {
-                unit.StopUnit();
+                unit.Pause();
             }
 
             foreach (Building building in buildingList) {
@@ -145,27 +157,49 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator GameOver(bool isWin) {
+    private void UnPauseGame() {
+        if (isGamePaused) {
+            isGamePaused = false;
+
+            foreach (Unit unit in unitList) {
+                unit.UnPause();
+            }
+
+            foreach(Building building in buildingList) {
+                building.UnPause();
+            }
+        }
+    }
+
+    private void GameOver() {
         PauseGame();
 
-        if (isWin) {
+        if (playerControlledTeam.HasBuildings()) {
             uIController.DisplayWinMessage();
         } else {
             uIController.DisplayLoseMessage();
         }
 
-        yield return new WaitForSeconds(2f);
+        StartCoroutine(GameOverCoroutine());
 
-        StartCoroutine(ExitGame());
+        IEnumerator GameOverCoroutine() {
+            yield return new WaitForSeconds(2f);
+
+            ExitGame();
+        }
     }
 
-    private IEnumerator ExitGame() {
+    private void ExitGame() {
         PauseGame();
 
         uIController.DisplayGameOverMessage();
 
-        yield return new WaitForSeconds(2f);
+        StartCoroutine(ExitGameCoroutine());
 
-        SceneManager.LoadScene(0);
+        IEnumerator ExitGameCoroutine() {
+            yield return new WaitForSeconds(2f);
+
+            SceneManager.LoadScene(0);
+        }
     }
 }

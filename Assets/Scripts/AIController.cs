@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class AIController
 {
-    // public GameManager.Team team = GameManager.Team.Blue;
-    public Team.TeamName teamName;
+    public Team team;
     public bool isAIActive = true;
     public float timeBetweenActions = 3f;
     public float reactionSpeed = 1f;
     public int stringAbleBuildings = 3;
 
-    public AIController(Team.TeamName inTeamName)
+    public AIController(Team inTeam)
     {
-        teamName = inTeamName;
+        team = inTeam;
         GameManager.instance.StartCoroutine(AICoroutine());
     }
 
@@ -44,13 +43,13 @@ public class AIController
     }
 
     private (int, List<Building>, List<Building>) GenerateInformation() {
-        int currentGold = GameManager.instance.GetTeam(teamName).GetGold();
+        int currentGold = team.GetGold();
 
         List<Building> enemyBuildings = new List<Building>();
         List<Building> friendlyBuildings = new List<Building>();
 
         foreach (Building building in GameManager.instance.GetBuildingsList()) {
-            if (building.GetTeamName() == teamName) {
+            if (building.GetTeam().Equals(team)) {
                 friendlyBuildings.Add(building);
             } else {
                 enemyBuildings.Add(building);
@@ -135,7 +134,7 @@ public class AIController
             if (currentGold >= buildingUpgradeCost)
             {
                 currentGold -= buildingUpgradeCost;
-                building.AttemptUpgrade();
+                building.Upgrade();
                 return true;
             }
         }

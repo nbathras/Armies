@@ -23,7 +23,7 @@ public class InputController : MonoBehaviour
     }
 
     private void Update() {
-        if (selected != null && selected.GetTeamName() != GameManager.instance.playerControlledTeam) {
+        if (selected != null && !selected.GetTeam().Equals(GameManager.instance.GetPlayerControlledTeam())) {
             ClearSelected();
         }
 
@@ -35,7 +35,7 @@ public class InputController : MonoBehaviour
             if (DetectMaskHit(out RaycastHit hit, buildingtMask)) {
                 selected = hit.collider.gameObject.GetComponent<Building>();
 
-                if (selected.GetTeamName() == GameManager.instance.playerControlledTeam) {
+                if (selected.GetTeam().Equals(GameManager.instance.GetPlayerControlledTeam())) {
                     selected.Select();
                 } else {
                     selected = null;
@@ -49,8 +49,8 @@ public class InputController : MonoBehaviour
             RaycastHit hit;
             if (selected != null && DetectMaskHit(out hit, buildingtMask)) {
                 Building focused = hit.collider.gameObject.GetComponent<Building>();
-                if (focused == selected && selected.GetTeamName() == GameManager.instance.playerControlledTeam) {
-                    selected.AttemptUpgrade();
+                if (focused == selected && selected.GetTeam().Equals(GameManager.instance.GetPlayerControlledTeam())) {
+                    selected.Upgrade();
                 } else {
                     Unit.ConstructUnit(selected, hit.collider.gameObject.GetComponent<Building>());
                 }

@@ -48,8 +48,8 @@ MonoBehaviour:
   uIController: {fileID: 0}
   buildingContainer: {fileID: 0}
   unitContainer: {fileID: 0}
-  playerControlledTeam: 1
-  isGamePaused: 0
+  teamContainer: {fileID: 0}
+  playerControlledTeam: {fileID: 0}
 --- !u!114 &5425382592776569334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,7 +82,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitPrefab: {fileID: 8923766808711290304, guid: 66b46bdbe79e25041915aad955196a20,
     type: 3}
-  dustParticlePrefab: {fileID: 1151497644004758220, guid: 36563dd96d98b504980b48ad87f0ee72,
-    type: 3}
+  redMaterial: {fileID: 2100000, guid: d0aac9b7f27ad104b8dfb9154dc868a0, type: 2}
+  yellowMaterial: {fileID: 2100000, guid: b8586bc0cdd5f304abd2112dd0ba2ce6, type: 2}
+  greenMaterial: {fileID: 2100000, guid: f72426734afead846a2a37ed63cb98f1, type: 2}
+  blueMaterial: {fileID: 2100000, guid: 8dd09527427a8bd4fa89149acb5eef20, type: 2}
   arrowPrefab: {fileID: 8514181764948469045, guid: cfb40752591ee144982fbe34d23c784d,
     type: 3}
