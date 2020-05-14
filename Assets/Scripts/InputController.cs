@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class InputController : MonoBehaviour
 {
     public LayerMask buildingtMask;
+    public LayerMask unitMask;
 
     private Camera cam;
 
@@ -30,7 +32,7 @@ public class InputController : MonoBehaviour
 
             ClearSelected();
 
-            if (DetectBuildingHit(out RaycastHit hit)) {
+            if (DetectMaskHit(out RaycastHit hit, buildingtMask)) {
                 selected = hit.collider.gameObject.GetComponent<Building>();
 
                 if (selected.GetTeamName() == GameManager.instance.playerControlledTeam) {
@@ -44,12 +46,57 @@ public class InputController : MonoBehaviour
         if (Input.GetMouseButtonDown(1) && !isMouse1clicked) {
             isMouse1clicked = true;
 
-            if (selected != null && DetectBuildingHit(out RaycastHit hit)) {
+            RaycastHit hit;
+            if (selected != null && DetectMaskHit(out hit, buildingtMask)) {
                 Building focused = hit.collider.gameObject.GetComponent<Building>();
                 if (focused == selected && selected.GetTeamName() == GameManager.instance.playerControlledTeam) {
                     selected.AttemptUpgrade();
                 } else {
                     Unit.ConstructUnit(selected, hit.collider.gameObject.GetComponent<Building>());
+                }
+            }
+
+            if (DetectMaskHit(out hit, unitMask)) {
+                // Debug.Log("Right click Unit!");
+
+                Unit focused = hit.collider.gameObject.GetComponent<Unit>();
+                List<Vector3> positions = new List<Vector3>();
+                positions.Add(new Vector3(0, -0, 0));
+
+                positions.Add(new Vector3(.1f, 0, -.1f));
+                positions.Add(new Vector3(.0f, 0, -.1f));
+                positions.Add(new Vector3(-.1f, 0, -.1f));
+
+                positions.Add(new Vector3(.1f, 0, .1f));
+                positions.Add(new Vector3(.0f, 0, .1f));
+                positions.Add(new Vector3(-.1f, 0, .1f));
+
+                positions.Add(new Vector3(-.1f, 0, .0f));
+                positions.Add(new Vector3(.1f, 0, .0f));
+
+                positions.Add(new Vector3(.2f, 0, .2f));
+                positions.Add(new Vector3(.1f, 0, .2f));
+                positions.Add(new Vector3(.0f, 0, .2f));
+                positions.Add(new Vector3(-.1f, 0, .2f));
+                positions.Add(new Vector3(-.2f, 0, .2f));
+
+                positions.Add(new Vector3(.2f, 0, -.2f));
+                positions.Add(new Vector3(.1f, 0, -.2f));
+                positions.Add(new Vector3(.0f, 0, -.2f));
+                positions.Add(new Vector3(-.1f, 0, -.2f));
+                positions.Add(new Vector3(-.2f, 0, -.2f));
+
+                positions.Add(new Vector3(.2f, 0, .1f));
+                positions.Add(new Vector3(.2f, 0, .0f));
+                positions.Add(new Vector3(.2f, 0, -.1f));
+
+                positions.Add(new Vector3(-.2f, 0, .1f));
+                positions.Add(new Vector3(-.2f, 0, .0f));
+                positions.Add(new Vector3(-.2f, 0, -.1f));
+
+                for (int i = 0; i < positions.Count; i++) {
+                    GameObject arrow = Instantiate(Blueprints.ArrowStaticPrefab);
+                    arrow.transform.position = focused.transform.position + new Vector3(0, 2, 0) + positions[i] + (focused.transform.forward * .65f);
                 }
             }
 
@@ -64,9 +111,9 @@ public class InputController : MonoBehaviour
         }
     }
 
-    private bool DetectBuildingHit(out RaycastHit hit) {
+    private bool DetectMaskHit(out RaycastHit hit, LayerMask mask) {
         var ray = cam.ScreenPointToRay(Input.mousePosition);
-        return Physics.Raycast(ray, out hit, 100, buildingtMask);
+        return Physics.Raycast(ray, out hit, 100, mask);
     }
 
     private void ClearSelected() {

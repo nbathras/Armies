@@ -64,24 +64,10 @@ public abstract class Building : MonoBehaviour
         // Unpauses building
         isPaused = false;
 
-        /*
-        teamMaterialList = new List<Material>();
-        for (int i = 0; i < buildingModelStages.Length; i++) {
-            foreach (MeshRenderer mr in buildingModelStages[i].GetComponentsInChildren<MeshRenderer>()) {
-                foreach (Material m in mr.materials) {
-                    if (m.name == "Flag (Instance)") {
-                        teamMaterialList.Add(m);
-                    }
-                }
-            }
-        }
-        */
         teamMaterialList = new List<Material>();
         foreach(MeshRenderer mr in gameObject.GetComponentsInChildren<MeshRenderer>()) {
             foreach(Material m in mr.materials) {
-                // Debug.Log("test1: " + m.name);
                 if (teamSharedMaterialList.Contains(m.name.Replace(" (Instance)", ""))) {
-                    Debug.Log("test");
                     teamMaterialList.Add(m);
                 }
             }
