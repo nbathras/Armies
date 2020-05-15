@@ -50,9 +50,6 @@ public class UIController : MonoBehaviour
 
         goldResourceText.gameObject.SetActive(true);
 
-        troopButton25.GetComponent<Button>().onClick.AddListener(() => SetTroopPercentage(.25f));
-        troopButton50.GetComponent<Button>().onClick.AddListener(() => SetTroopPercentage(.50f));
-        troopButton75.GetComponent<Button>().onClick.AddListener(() => SetTroopPercentage(.75f));
         SetTroopPercentage(.5f);
     }
 

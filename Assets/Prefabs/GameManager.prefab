@@ -66,6 +66,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   powerCircle: {fileID: 0}
+  environmentMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &5425382592776569335
 MonoBehaviour:
   m_ObjectHideFlags: 0

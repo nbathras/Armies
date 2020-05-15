@@ -42,11 +42,11 @@ public class Arrow : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.tag == "Unit") {
+        if (collision.gameObject.CompareTag("Unit")) {
             arrowStorm.HitUnit(collision.gameObject);
         }
 
-        if (collision.gameObject.tag == "Environment") {
+        if (collision.gameObject.CompareTag("Environment")) {
             updateRotation = false;
             rb.isKinematic = true;
         }

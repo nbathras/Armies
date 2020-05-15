@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -84,6 +85,9 @@ public abstract class Building : MonoBehaviour
         SetBuildingLevel(buildingLevel);
 
         // Sets the intial team
+        if (team == null) {
+            throw new Exception("Custom Exception: team must be assigned in inspector");
+        }
         SetTeam(team);
 
         // Start troop generation
