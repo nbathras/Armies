@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,8 @@ public class InputController : MonoBehaviour
     private LayerMask buildingtMask;
     [SerializeField]
     private GameObject powerCircle;
+    [SerializeField]
+    private LayerMask environmentMask;
 
     private Camera cam;
 
@@ -67,8 +70,8 @@ public class InputController : MonoBehaviour
                     powerCircle.SetActive(false);
 
                     currentState = InputStates.Default;
-                }
-                if (Input.GetMouseButtonDown(0)) {
+
+                } else if (Input.GetMouseButtonDown(0)) {
                     powerCircle.SetActive(false);
 
                     currentState = InputStates.Default;
@@ -113,51 +116,31 @@ public class InputController : MonoBehaviour
     }
 
     private bool SpawnArrowStorm() {
-        List<Vector3> positions = new List<Vector3>();
-        positions.Add(new Vector3(0, -0, 0));
-
-        positions.Add(new Vector3(.1f, 0, -.1f));
-        positions.Add(new Vector3(.0f, 0, -.1f));
-        positions.Add(new Vector3(-.1f, 0, -.1f));
-
-        positions.Add(new Vector3(.1f, 0, .1f));
-        positions.Add(new Vector3(.0f, 0, .1f));
-        positions.Add(new Vector3(-.1f, 0, .1f));
-
-        positions.Add(new Vector3(-.1f, 0, .0f));
-        positions.Add(new Vector3(.1f, 0, .0f));
-
-        positions.Add(new Vector3(.2f, 0, .2f));
-        positions.Add(new Vector3(.1f, 0, .2f));
-        positions.Add(new Vector3(.0f, 0, .2f));
-        positions.Add(new Vector3(-.1f, 0, .2f));
-        positions.Add(new Vector3(-.2f, 0, .2f));
-
-        positions.Add(new Vector3(.2f, 0, -.2f));
-        positions.Add(new Vector3(.1f, 0, -.2f));
-        positions.Add(new Vector3(.0f, 0, -.2f));
-        positions.Add(new Vector3(-.1f, 0, -.2f));
-        positions.Add(new Vector3(-.2f, 0, -.2f));
-
-        positions.Add(new Vector3(.2f, 0, .1f));
-        positions.Add(new Vector3(.2f, 0, .0f));
-        positions.Add(new Vector3(.2f, 0, -.1f));
-
-        positions.Add(new Vector3(-.2f, 0, .1f));
-        positions.Add(new Vector3(-.2f, 0, .0f));
-        positions.Add(new Vector3(-.2f, 0, -.1f));
-
-        Vector3 hitPosition = new Vector3(0, 0, 0);
-        RaycastHit hit;
+        Vector3 target = new Vector3(0, 0, 0);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit)) {
-            hitPosition = hit.point;
+        if (Physics.Raycast(ray, out RaycastHit hit, 100, environmentMask)) {
+            target = hit.point;
         }
 
-        for (int i = 0; i < positions.Count; i++) {
-            GameObject arrow = Instantiate(Blueprints.ArrowStaticPrefab);
-            arrow.transform.position = hitPosition + new Vector3(0, 2, 0) + positions[i];
+        ArrowStorm arrowStorm = Instantiate(Blueprints.ArrowStormStaticPrefab).GetComponent<ArrowStorm>();
+        arrowStorm.Initalize(target);
+
+        /*
+        Vector3 arrowStartingPosition = new Vector3(
+            Camera.main.transform.position.x,
+            5f,
+            Camera.main.transform.position.z
+        );
+        Vector3 intialVelocity = new Vector3(hitPosition.x, 5f, hitPosition.z) - arrowStartingPosition;
+
+        GameObject arrowStorm = Instantiate(Blueprints.ArrowStormStaticPrefab);
+        arrowStorm.transform.position = arrowStartingPosition;
+
+        List<ArrowStorm> arrowList = arrowStorm.GetComponentsInChildren<ArrowStorm>().ToList();
+        foreach (Arrow arrow in arrowList) {
+            arrow.initialForce = intialVelocity * 56;
         }
+        */
 
         return true;
     }

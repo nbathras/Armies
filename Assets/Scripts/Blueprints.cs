@@ -20,7 +20,7 @@ public class Blueprints : MonoBehaviour
 
     // other blueprints
     [SerializeField]
-    private GameObject arrowPrefab;
+    private GameObject arrowStormPrefab;
 
     public static GameObject UnitStaticPrefab {
         get {
@@ -52,9 +52,9 @@ public class Blueprints : MonoBehaviour
         }
     }
 
-    public static GameObject ArrowStaticPrefab {
+    public static GameObject ArrowStormStaticPrefab {
         get {
-            return instance.arrowPrefab;
+            return instance.arrowStormPrefab;
         }
     }
 

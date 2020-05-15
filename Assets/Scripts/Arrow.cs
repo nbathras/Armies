@@ -1,31 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Arrow : MonoBehaviour
 {
-    [SerializeField]
-    private Vector3 initialForce;
-
-    [SerializeField]
-    private float despawnTime = 4f;
-
     private Rigidbody rb;
+
     private float initializationTime;
+
+    public float despawnTime;
+    public Vector3 initialVelocity = new Vector3(0,0,0);
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
         initializationTime = Time.timeSinceLevelLoad;
-        despawnTime += Random.Range(0, 30) / 100.0f;
-        transform.position += new Vector3(0, Random.Range(0, 2), 0);
-        transform.Rotate(new Vector3(0, Random.Range(0, 360), 0), Space.World);
 
-        rb.AddForce(initialForce);
+        rb = GetComponent<Rigidbody>();
+
+        transform.position += new Vector3(
+            Random.Range(0, 10) / 100f - .05f,
+            Random.Range(0, 10) / 100f - .05f,
+            Random.Range(0, 10) / 100f - .05f
+        );
+
+        rb.velocity = initialVelocity;
     }
 
-    private void Update() {
+    private void Update()
+    {
         float timeSinceInitialization = Time.timeSinceLevelLoad - initializationTime;
 
         if (timeSinceInitialization > despawnTime) {
@@ -34,6 +35,8 @@ public class Arrow : MonoBehaviour
 
         if (transform.position.y <= .1f) {
             rb.isKinematic = true;
+        } else {
+            transform.forward = -rb.velocity;
         }
     }
 }

@@ -65,9 +65,7 @@ MonoBehaviour:
   buildingtMask:
     serializedVersion: 2
     m_Bits: 256
-  unitMask:
-    serializedVersion: 2
-    m_Bits: 1024
+  powerCircle: {fileID: 0}
 --- !u!114 &5425382592776569335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,5 +84,5 @@ MonoBehaviour:
   yellowMaterial: {fileID: 2100000, guid: b8586bc0cdd5f304abd2112dd0ba2ce6, type: 2}
   greenMaterial: {fileID: 2100000, guid: f72426734afead846a2a37ed63cb98f1, type: 2}
   blueMaterial: {fileID: 2100000, guid: 8dd09527427a8bd4fa89149acb5eef20, type: 2}
-  arrowPrefab: {fileID: 8514181764948469045, guid: cfb40752591ee144982fbe34d23c784d,
+  arrowStormPrefab: {fileID: 4928890659989354473, guid: b05c03042f30de941bfe22f38c2e0de2,
     type: 3}
