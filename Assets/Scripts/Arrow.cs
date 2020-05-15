@@ -22,8 +22,10 @@ public class Arrow : MonoBehaviour
             Random.Range(0, 10) / 100f - .05f
         );
 
-        rb.velocity = initialVelocity;
+        rb.velocity = initialVelocity + new Vector3(0, -10, 0);
     }
+
+    private bool updateRotation = true;
 
     private void Update()
     {
@@ -33,10 +35,15 @@ public class Arrow : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (transform.position.y <= .1f) {
-            rb.isKinematic = true;
-        } else {
+        if (updateRotation) {
             transform.forward = -rb.velocity;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.tag == "Environment") {
+            updateRotation = false;
+            rb.isKinematic = true;
         }
     }
 }

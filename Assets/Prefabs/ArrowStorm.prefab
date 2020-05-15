@@ -107,8 +107,8 @@ CapsuleCollider:
   m_GameObject: {fileID: 3625007116049279422}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.04
+  m_Enabled: 1
+  m_Radius: 0.02
   m_Height: 0.4
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.18}
@@ -235,8 +235,8 @@ CapsuleCollider:
   m_GameObject: {fileID: 3625007116276171297}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.04
+  m_Enabled: 1
+  m_Radius: 0.02
   m_Height: 0.4
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.18}
@@ -363,8 +363,8 @@ CapsuleCollider:
   m_GameObject: {fileID: 3625007116381587412}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.04
+  m_Enabled: 1
+  m_Radius: 0.02
   m_Height: 0.4
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.18}
@@ -491,8 +491,8 @@ CapsuleCollider:
   m_GameObject: {fileID: 3625007116597047222}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.04
+  m_Enabled: 1
+  m_Radius: 0.02
   m_Height: 0.4
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.18}
@@ -619,8 +619,8 @@ CapsuleCollider:
   m_GameObject: {fileID: 3625007116771700428}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.04
+  m_Enabled: 1
+  m_Radius: 0.02
   m_Height: 0.4
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.18}
@@ -747,8 +747,8 @@ CapsuleCollider:
   m_GameObject: {fileID: 3625007117046700406}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.04
+  m_Enabled: 1
+  m_Radius: 0.02
   m_Height: 0.4
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.18}
@@ -875,8 +875,8 @@ CapsuleCollider:
   m_GameObject: {fileID: 3625007117057578188}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.04
+  m_Enabled: 1
+  m_Radius: 0.02
   m_Height: 0.4
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.18}
@@ -1003,8 +1003,8 @@ CapsuleCollider:
   m_GameObject: {fileID: 3625007117265589881}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.04
+  m_Enabled: 1
+  m_Radius: 0.02
   m_Height: 0.4
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.18}
@@ -1131,8 +1131,8 @@ CapsuleCollider:
   m_GameObject: {fileID: 3625007117398261577}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.04
+  m_Enabled: 1
+  m_Radius: 0.02
   m_Height: 0.4
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.18}
@@ -1204,8 +1204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a4ac77e81f29849aad15b620753cdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHeight: 5
-  shotPower: 1.12
+  startingHeight: 8
+  shotPower: 1.65
   despawnTime: 4
   arrowArray:
   - {fileID: 3547475166060958075}
