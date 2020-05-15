@@ -39,6 +39,15 @@ public class Unit : MonoBehaviour
         animator.SetFloat("speedPercent", speedPercent, locomationAnimationSmoothTime, Time.deltaTime);
     }
 
+    /* Spells Cast */
+    public void HitUnit() {
+        if (armySize <= 25) {
+            Destroy(gameObject);
+        } else {
+            SetArmySize(armySize - 25);
+        }
+    }
+
     /* Getters */
     public int GetArmySize()
     {

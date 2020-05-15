@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ArrowStorm: MonoBehaviour
@@ -11,13 +12,18 @@ public class ArrowStorm: MonoBehaviour
     [SerializeField]
     private float despawnTime = 4f;
 
-    private float initializationTime;
     [SerializeField]
     private Arrow[] arrowArray;
 
-    public void Initalize(Vector3 target) {
-        initializationTime = Time.timeSinceLevelLoad;
+    private float initializationTime;
+    private List<Unit> hitList;
 
+    private void Start() {
+        initializationTime = Time.timeSinceLevelLoad;
+        hitList = new List<Unit>();
+    }
+
+    public void Initalize(Vector3 target) {
         Vector3 arrowStartingPosition = new Vector3(
             Camera.main.transform.position.x,
             startingHeight,
@@ -28,8 +34,8 @@ public class ArrowStorm: MonoBehaviour
 
         for (int i = 0; i < arrowArray.Length; i++) {
             arrowArray[i].initialVelocity = initialVelocity * shotPower;
-
             arrowArray[i].despawnTime = despawnTime - 1;
+            arrowArray[i].arrowStorm = this;
         }
     }
 
@@ -38,6 +44,14 @@ public class ArrowStorm: MonoBehaviour
 
         if (timeSinceInitialization > despawnTime) {
             Destroy(gameObject);
+        }
+    }
+
+    public void HitUnit(GameObject unitGameObjecttHit) {
+        Unit unitHit = unitGameObjecttHit.GetComponent<Unit>();
+        if (!hitList.Contains(unitHit)) {
+            unitHit.HitUnit();
+            hitList.Add(unitHit);
         }
     }
 }

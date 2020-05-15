@@ -89,7 +89,6 @@ public class UIController : MonoBehaviour
 
     public void SetTroopPercentage(float percentage)
     {
-        UnityEngine.Debug.Log("Troop Percent:" + percentage);
         troopSizePercent = percentage;
 
         if (percentage == .25f)

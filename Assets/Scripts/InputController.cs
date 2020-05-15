@@ -116,33 +116,23 @@ public class InputController : MonoBehaviour
     }
 
     private bool SpawnArrowStorm() {
-        Vector3 target = new Vector3(0, 0, 0);
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, 100, environmentMask)) {
-            target = hit.point;
+        int currentPlayerGold = GameManager.instance.GetPlayerControlledTeam().GetGold();
+
+        if (currentPlayerGold >= 25) {
+            GameManager.instance.GetPlayerControlledTeam().SetGold(currentPlayerGold - 25);
+
+            Vector3 target = new Vector3(0, 0, 0);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, 100, environmentMask)) {
+                target = hit.point;
+            }
+
+            ArrowStorm arrowStorm = Instantiate(Blueprints.ArrowStormStaticPrefab).GetComponent<ArrowStorm>();
+            arrowStorm.Initalize(target);
+
+            return true;
         }
-
-        ArrowStorm arrowStorm = Instantiate(Blueprints.ArrowStormStaticPrefab).GetComponent<ArrowStorm>();
-        arrowStorm.Initalize(target);
-
-        /*
-        Vector3 arrowStartingPosition = new Vector3(
-            Camera.main.transform.position.x,
-            5f,
-            Camera.main.transform.position.z
-        );
-        Vector3 intialVelocity = new Vector3(hitPosition.x, 5f, hitPosition.z) - arrowStartingPosition;
-
-        GameObject arrowStorm = Instantiate(Blueprints.ArrowStormStaticPrefab);
-        arrowStorm.transform.position = arrowStartingPosition;
-
-        List<ArrowStorm> arrowList = arrowStorm.GetComponentsInChildren<ArrowStorm>().ToList();
-        foreach (Arrow arrow in arrowList) {
-            arrow.initialForce = intialVelocity * 56;
-        }
-        */
-
-        return true;
+        return false;
     }
 
     private void ClearSelected() {
