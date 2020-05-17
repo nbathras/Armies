@@ -20,6 +20,8 @@ public class InputController : MonoBehaviour
     private Building selected;
 
     private InputStates currentState;
+    private bool mouseButton0Clicked, mouseButton1Clicked;
+
     private enum InputStates
     {
         Default,
@@ -33,12 +35,17 @@ public class InputController : MonoBehaviour
         currentState = InputStates.Default;
 
         selected = null;
+
+        mouseButton0Clicked = false;
+        mouseButton1Clicked = false;
     }
 
     private void Update() {
         switch (currentState) {
             case InputStates.Default:
-                if (Input.GetMouseButtonDown(0)) {
+                if (Input.GetMouseButtonDown(0) && !mouseButton0Clicked) {
+                    mouseButton0Clicked = true;
+
                     ClearSelected();
 
                     if (SelectBuilding()) {
@@ -54,7 +61,16 @@ public class InputController : MonoBehaviour
 
                 break;
             case InputStates.BuildingSelected:
-                if (Input.GetMouseButtonDown(1)) {
+                if (Input.GetMouseButton(0) && !mouseButton0Clicked) {
+                    mouseButton0Clicked = true;
+
+                    ClearSelected();
+
+                    currentState = InputStates.Default;
+                }
+                if (Input.GetMouseButtonDown(1) && !mouseButton1Clicked) {
+                    mouseButton1Clicked = true;
+
                     FocusBuilding();
 
                     ClearSelected();
@@ -86,6 +102,9 @@ public class InputController : MonoBehaviour
 
                 break;
         }
+
+        if (Input.GetMouseButtonUp(0)) { mouseButton0Clicked = false; }
+        if (Input.GetMouseButtonUp(1)) { mouseButton1Clicked = false; }
     }
 
     private bool SelectBuilding() {
