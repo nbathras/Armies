@@ -67,8 +67,7 @@ public class InputController : MonoBehaviour
                     ClearSelected();
 
                     currentState = InputStates.Default;
-                }
-                if (Input.GetMouseButtonDown(1) && !mouseButton1Clicked) {
+                } else if (Input.GetMouseButtonDown(1) && !mouseButton1Clicked) {
                     mouseButton1Clicked = true;
 
                     FocusBuilding();
@@ -76,6 +75,10 @@ public class InputController : MonoBehaviour
                     ClearSelected();
 
                     currentState = InputStates.Default;
+                } else if (Input.GetKeyDown(KeyCode.Alpha1)) {
+                    ClearSelected();
+
+                    currentState = InputStates.ArrowPowerSelected;
                 }
                 break;
             case InputStates.ArrowPowerSelected:

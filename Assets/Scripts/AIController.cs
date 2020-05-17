@@ -6,9 +6,9 @@ public class AIController
 {
     public Team team;
     public bool isAIActive = true;
-    public float timeBetweenActions = 3f;
+    public float timeBetweenActions = 1f;
     public float reactionSpeed = 1f;
-    public int stringAbleBuildings = 3;
+    public int stringAbleBuildings = 10;
 
     public AIController(Team inTeam)
     {
@@ -76,6 +76,8 @@ public class AIController
             musterableArmy += (int) (friendlyBuildings[i].GetArmySize() / 2);
         }
 
+        // ToDo: cause stagnation 
+        /*
         Building target = null;
         for (int i = enemyBuildings.Count - 1; i >= 0; i--) {
             // If team has less than 200 goal attempt to target a mine
@@ -93,9 +95,12 @@ public class AIController
                 }
             }
         }
+        */
+
+        Building target = enemyBuildings[enemyBuildings.Count - 1];
 
         bool isAttackSent = false;
-        float winPercentageDifference = 1.2f;
+        float winPercentageDifference = 1.0f;
         int targetArmySize = (int) (target.GetArmySize() * winPercentageDifference);
         if (musterableArmy > targetArmySize) {
             int attackForce = 0;
