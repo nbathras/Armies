@@ -122,6 +122,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 4074ecdeb764ebf4f9fd704ffcc9697b, type: 2}
+--- !u!114 &1555695 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5425382592776569334, guid: f353f6e06108ded40998815e1e06a6c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1307174275}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cd18ea699710eb478484abbc99e002b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &13581348
 GameObject:
   m_ObjectHideFlags: 0
@@ -1924,6 +1936,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1493515286, guid: 0bef77ae8f952b34d8786253c3ac9e28, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1555695}
+    - target: {fileID: 1493515286, guid: 0bef77ae8f952b34d8786253c3ac9e28, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectArrowStorm
+      objectReference: {fileID: 0}
     - target: {fileID: 894244398822683508, guid: 0bef77ae8f952b34d8786253c3ac9e28,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -2258,6 +2278,11 @@ PrefabInstance:
       propertyPath: powerCircle
       value: 
       objectReference: {fileID: 895621103}
+    - target: {fileID: 5425382592776569334, guid: f353f6e06108ded40998815e1e06a6c5,
+        type: 3}
+      propertyPath: uIController
+      value: 
+      objectReference: {fileID: 1038840492}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f353f6e06108ded40998815e1e06a6c5, type: 3}
 --- !u!1 &1324291102 stripped

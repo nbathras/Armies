@@ -40,6 +40,14 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private Sprite offSprite75;
 
+    [SerializeField]
+    private Button arrowButton;
+
+    [SerializeField]
+    private Sprite onSpriteArrows;
+    [SerializeField]
+    private Sprite offSpriteArrows;
+
     private float troopSizePercent;
 
     private void Awake() {
@@ -104,5 +112,10 @@ public class UIController : MonoBehaviour
             troopButton50.GetComponent<Image>().sprite = offSprite50;
             troopButton75.GetComponent<Image>().sprite = onSprite75;
         }
+    }
+
+    public void toggleArrow(Boolean nextState)
+    {
+        arrowButton.GetComponent<Image>().sprite = nextState ? onSpriteArrows : offSpriteArrows;
     }
 }

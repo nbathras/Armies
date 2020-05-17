@@ -12,6 +12,9 @@ public class InputController : MonoBehaviour
     [SerializeField]
     private LayerMask environmentMask;
 
+    [SerializeField]
+    private UIController uIController;
+
     private Camera cam;
 
     private Building selected;
@@ -64,17 +67,21 @@ public class InputController : MonoBehaviour
 
                 powerCircle.transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 
+                uIController.toggleArrow(true);
+
                 if (Input.GetMouseButton(1)) {
                     SpawnArrowStorm();
 
                     powerCircle.SetActive(false);
 
                     currentState = InputStates.Default;
+                    uIController.toggleArrow(false);
 
                 } else if (Input.GetMouseButtonDown(0)) {
                     powerCircle.SetActive(false);
 
                     currentState = InputStates.Default;
+                    uIController.toggleArrow(false);
                 }
 
                 break;
@@ -140,5 +147,10 @@ public class InputController : MonoBehaviour
             selected.DeSelect();
             selected = null;
         }
+    }
+
+    public void SelectArrowStorm()
+    {
+        currentState = InputStates.ArrowPowerSelected;
     }
 }

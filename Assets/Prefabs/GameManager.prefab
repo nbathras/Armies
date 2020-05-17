@@ -69,6 +69,7 @@ MonoBehaviour:
   environmentMask:
     serializedVersion: 2
     m_Bits: 512
+  uIController: {fileID: 0}
 --- !u!114 &5425382592776569335
 MonoBehaviour:
   m_ObjectHideFlags: 0

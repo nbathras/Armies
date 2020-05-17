@@ -1279,11 +1279,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5425382592776569227, guid: f353f6e06108ded40998815e1e06a6c5,
         type: 3}
-      propertyPath: activeTeams.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5425382592776569227, guid: f353f6e06108ded40998815e1e06a6c5,
-        type: 3}
       propertyPath: uIController
       value: 
       objectReference: {fileID: 337507786}
@@ -1299,38 +1294,18 @@ PrefabInstance:
       objectReference: {fileID: 1152049538}
     - target: {fileID: 5425382592776569227, guid: f353f6e06108ded40998815e1e06a6c5,
         type: 3}
-      propertyPath: activeTeams.Array.data[0]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5425382592776569227, guid: f353f6e06108ded40998815e1e06a6c5,
-        type: 3}
-      propertyPath: activeTeams.Array.data[1]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5425382592776569227, guid: f353f6e06108ded40998815e1e06a6c5,
-        type: 3}
-      propertyPath: activeTeams.Array.data[2]
-      value: 3
-      objectReference: {fileID: 0}
+      propertyPath: teamContainer
+      value: 
+      objectReference: {fileID: 366934656}
     - target: {fileID: 5425382592776569227, guid: f353f6e06108ded40998815e1e06a6c5,
         type: 3}
       propertyPath: playerControlledTeam
       value: 
       objectReference: {fileID: 1541698363}
-    - target: {fileID: 5425382592776569227, guid: f353f6e06108ded40998815e1e06a6c5,
-        type: 3}
-      propertyPath: teamContainer
-      value: 
-      objectReference: {fileID: 366934656}
     - target: {fileID: 5425382592776569328, guid: f353f6e06108ded40998815e1e06a6c5,
         type: 3}
       propertyPath: m_Name
       value: GameManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 5425382592776569328, guid: f353f6e06108ded40998815e1e06a6c5,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5425382592776569333, guid: f353f6e06108ded40998815e1e06a6c5,
         type: 3}
@@ -1392,8 +1367,12 @@ PrefabInstance:
       propertyPath: powerCircle
       value: 
       objectReference: {fileID: 45849935}
-    m_RemovedComponents:
-    - {fileID: 5425382592776569332, guid: f353f6e06108ded40998815e1e06a6c5, type: 3}
+    - target: {fileID: 5425382592776569334, guid: f353f6e06108ded40998815e1e06a6c5,
+        type: 3}
+      propertyPath: uIController
+      value: 
+      objectReference: {fileID: 337507786}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f353f6e06108ded40998815e1e06a6c5, type: 3}
 --- !u!1001 &542482900
 PrefabInstance:
@@ -2373,6 +2352,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1493515286, guid: 0bef77ae8f952b34d8786253c3ac9e28, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1893885429}
     - target: {fileID: 3755803173098661761, guid: 0bef77ae8f952b34d8786253c3ac9e28,
         type: 3}
       propertyPath: m_Name
@@ -4263,6 +4246,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1889137032}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1893885429 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5425382592776569334, guid: f353f6e06108ded40998815e1e06a6c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 522022762}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cd18ea699710eb478484abbc99e002b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1904526243
 PrefabInstance:
   m_ObjectHideFlags: 0
