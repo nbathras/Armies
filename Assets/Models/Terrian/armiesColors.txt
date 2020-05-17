@@ -1,0 +1,66 @@
+Noah Armies Color Sheet:
+
+Building Colors:
+
+Shadows:
+H: 0.676
+S: 0.328
+V: 0.093
+
+Light Wood
+H: 0.095
+S: 0.451
+V: 0.327
+
+Dark Wood
+H: 0.041
+S: 0.469
+V: 0.273
+
+Brick
+H: 0.017
+S: 0.751
+V: 0.313
+
+Flag
+H: 0.881913
+S: 0.868248
+V: 0.906332
+
+Terrian Colors:
+
+Water:
+H: 0.574
+S: 0.537
+V: 0.906
+A: 0.010
+
+Sand:
+H: 0.113
+S: 0.369
+V: 0.687
+
+Grass:
+H: 0.220
+S: 0.943
+V: 0.592
+
+Wood:
+H: 0.104
+S: 0.504
+V: 0.393
+
+TreeTop:
+H: 0.292
+S: 0.566
+V: 0.473
+
+Snow:
+H: 0.01
+S: 0.01
+V: 0.9
+
+Stone:
+H: 0.081
+S: 0.137
+V: 0.371
